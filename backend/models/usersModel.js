@@ -31,6 +31,14 @@ const userSchema = new mongoose.Schema({
       type: String,
       enum: ["ACTIVE", "INACTIVE"],
       default: "ACTIVE"
+    },
+    
+    mentor: {
+       type: mongoose.Schema.Types.ObjectId,
+       ref: "User",
+       required: function() {
+         return this.role === "INTERN";
+       }
     }
   },
   {

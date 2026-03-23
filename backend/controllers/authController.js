@@ -4,7 +4,7 @@ const validator = require('validator');
 const jwt = require("jsonwebtoken");
 
 const createToken = (_id)=>{
-    return jwt.sign({_id},process.env.SECRET,{expiresIn: "3d"})
+    return jwt.sign({_id},process.env.SECRET,{expiresIn: "7d"})
 }
 
 exports.signupUser = async (req, res) => {
@@ -59,7 +59,7 @@ exports.signupUser = async (req, res) => {
       role: "MENTOR"
     });
 
-    const maxAge = 3 * 24 * 60 * 60;
+    const maxAge = 7 * 24 * 60 * 60;
     const token = createToken(user._id);
     res.cookie('jwt',token,{
         httpOnly:true, 
@@ -109,7 +109,7 @@ exports.loginUser = async(req,res)=>{
                 errors: {password: "Incorrect Password"}
             });
         }
-        const maxAge = 3 * 24 * 60 * 60;
+        const maxAge = 7 * 24 * 60 * 60;
         const token = createToken(user._id);
         res.cookie('jwt',token,{
             httpOnly: true,
@@ -121,8 +121,7 @@ exports.loginUser = async(req,res)=>{
         res.status(200).json({
         message: "Login successful",
          user: {
-    _id: user._id,      
-    name: user.name,     
+    _id: user._id,          
     email: user.email,   
     role: user.role      
   }
@@ -131,3 +130,21 @@ exports.loginUser = async(req,res)=>{
     res.status(500).json({ error: error.message });
   }
 }
+
+exports.logoutUser = async (req, res) => {
+  try {
+    res.cookie("jwt", "", {
+      httpOnly: true,
+      expires: new Date(0),
+      sameSite: "Strict",
+      secure: process.env.NODE_ENV === "production"
+    });
+
+    res.status(200).json({
+      message: "Logout successful"
+    });
+
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};

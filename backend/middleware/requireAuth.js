@@ -1,0 +1,42 @@
+const jwt = require("jsonwebtoken");
+const User = require("../models/usersModel");
+
+exports.requireAuth = async (req, res, next) => {
+  const token = req.cookies.jwt;
+
+  if (!token) {
+    return res.status(401).json({ message: "Login required" });
+  }
+
+  try {
+    const decoded = jwt.verify(token, process.env.SECRET);
+    const user = await User.findById(decoded._id);
+
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    req.user = user;
+    next();
+  } catch (error) {
+    return res.status(401).json({ message: "Invalid token" });
+  }
+};
+
+exports.requireRole = (role) => {
+  return (req, res, next) => {
+  try {
+      if (!req.user) {
+        return res.status(401).json({ message: "Unauthorized" });
+      }
+
+      if (req.user.role !== role) {
+        return res.status(403).json({ message: "Access denied" });
+      }
+
+      next();
+    } catch (error) {
+      return res.status(500).json({ message: "Role check failed" });
+    }
+  };
+};

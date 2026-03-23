@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/authRoutes');
+const mentorRoutes = require('./routes/mentorRoutes');
 const app = express();
 
 const cors = require('cors');
@@ -20,7 +21,7 @@ const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
 app.use('/auth', userRoutes);
-
+app.use('/mentor', mentorRoutes);
 app.listen(process.env.PORT,()=>{
     console.log(`app is listening on port ${process.env.PORT}`);
 })
