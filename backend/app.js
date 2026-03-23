@@ -22,6 +22,10 @@ app.use(cookieParser());
 
 app.use('/auth', userRoutes);
 app.use('/mentor', mentorRoutes);
+
+const profileRoutes = require("./routes/ProfileRoutes");
+app.use("/profile", profileRoutes);
+
 app.listen(process.env.PORT,()=>{
     console.log(`app is listening on port ${process.env.PORT}`);
 })
