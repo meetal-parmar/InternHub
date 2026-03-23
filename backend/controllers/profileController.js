@@ -1,89 +1,110 @@
 const InternProfile = require("../models/InternProfile");
 const MentorProfile = require("../models/MentorProfile");
 
-// CREATE
+
 exports.createProfile = async (req, res) => {
   try {
-    const { userId, role } = req.body;
-
-    // 🔹 INTERN
-    if (role === "intern") {
+    const userId = req.user._id;
+    const role = req.user.role;
+    
+    if (role === "INTERN") {
       const existing = await InternProfile.findOne({ userId });
 
       if (existing) {
         return res.status(400).json({
-          message: "Intern profile already exists"
+          errors: { profile: "Intern profile already exists" }
         });
       }
 
-      const profile = new InternProfile(req.body);
+      const profile = new InternProfile({ ...req.body, userId });
       const data = await profile.save();
 
-      return res.status(201).json(data);
+      return res.status(201).json({
+        message: "Intern profile created",
+        data
+      });
     }
-
-    // 🔹 MENTOR
-    if (role === "mentor") {
+    if (role === "MENTOR") {
       const existing = await MentorProfile.findOne({ userId });
 
       if (existing) {
         return res.status(400).json({
-          message: "Mentor profile already exists"
+          errors: { profile: "Mentor profile already exists" }
         });
       }
 
-      const profile = new MentorProfile(req.body);
+      const profile = new MentorProfile({ ...req.body, userId });
       const data = await profile.save();
 
-      return res.status(201).json(data);
+      return res.status(201).json({
+        message: "Mentor profile created",
+        data
+      });
     }
 
-    res.status(400).json({ message: "Invalid role" });
+    return res.status(403).json({
+      errors: { role: "Invalid role" }
+    });
 
   } catch (err) {
-    res.status(400).json({ message: err.message });
+
+    if (err.name === "ValidationError") {
+      let errors = {};
+      for (let field in err.errors) {
+        errors[field] = err.errors[field].message;
+      }
+      return res.status(400).json({ errors });
+    }
+
+    res.status(500).json({
+      errors: { server: err.message }
+    });
   }
 };
 
-// GET
+
 exports.getProfile = async (req, res) => {
   try {
-    const { userId, role } = req.params;
+    const userId = req.user._id;
+    const role = req.user.role;
 
     let profile;
 
-    if (role === "intern") {
+    if (role === "INTERN") {
       profile = await InternProfile.findOne({ userId });
-    } else if (role === "mentor") {
+    } else if (role === "MENTOR") {
       profile = await MentorProfile.findOne({ userId });
     }
 
     if (!profile) {
-      return res.status(404).json({ message: "Profile not found" });
+      return res.status(404).json({
+        errors: { profile: "Profile not found" }
+      });
     }
 
     res.json(profile);
 
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({
+      errors: { server: err.message }
+    });
   }
 };
 
-
-// UPDATE
 exports.updateProfile = async (req, res) => {
   try {
-    const { userId, role } = req.params;
+    const userId = req.user._id;
+    const role = req.user.role;
 
     let updated;
 
-    if (role === "intern") {
+    if (role === "INTERN") {
       updated = await InternProfile.findOneAndUpdate(
         { userId },
         req.body,
         { new: true, runValidators: true }
       );
-    } else {
+    } else if (role === "MENTOR") {
       updated = await MentorProfile.findOneAndUpdate(
         { userId },
         req.body,
@@ -91,27 +112,60 @@ exports.updateProfile = async (req, res) => {
       );
     }
 
-    res.json(updated);
+    if (!updated) {
+      return res.status(404).json({
+        errors: { profile: "Profile not found" }
+      });
+    }
+
+    res.json({
+      message: "Profile updated",
+      data: updated
+    });
 
   } catch (err) {
-    res.status(400).json({ message: err.message });
+
+    if (err.name === "ValidationError") {
+      let errors = {};
+      for (let field in err.errors) {
+        errors[field] = err.errors[field].message;
+      }
+      return res.status(400).json({ errors });
+    }
+
+    res.status(500).json({
+      errors: { server: err.message }
+    });
   }
 };
 
-// DELETE
+
 exports.deleteProfile = async (req, res) => {
   try {
-    const { userId, role } = req.params;
+    const userId = req.user._id;
+    const role = req.user.role;
 
-    if (role === "intern") {
-      await InternProfile.findOneAndDelete({ userId });
-    } else {
-      await MentorProfile.findOneAndDelete({ userId });
+    let deleted;
+
+    if (role === "INTERN") {
+      deleted = await InternProfile.findOneAndDelete({ userId });
+    } else if (role === "MENTOR") {
+      deleted = await MentorProfile.findOneAndDelete({ userId });
     }
 
-    res.json({ message: "Deleted successfully" });
+    if (!deleted) {
+      return res.status(404).json({
+        errors: { profile: "Profile not found" }
+      });
+    }
+
+    res.json({
+      message: "Deleted successfully"
+    });
 
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    res.status(500).json({
+      errors: { server: err.message }
+    });
   }
 };

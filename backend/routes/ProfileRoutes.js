@@ -1,16 +1,20 @@
 const express = require("express");
 const router = express.Router();
+const { requireAuth, requireRole } = require("../middleware/requireAuth");
 
 const {
   createProfile,
   getProfile,
   updateProfile,
   deleteProfile
-} = require("../controller/ProfileController");
+} = require("../controllers/profileController");
 
-router.post("/", createProfile);
-router.get("/:role/:userId", getProfile);
-router.put("/:role/:userId", updateProfile);
-router.delete("/:role/:userId", deleteProfile);
+
+router.post("/mentor", requireAuth, requireRole("MENTOR"), createProfile);
+router.post("/intern", requireAuth, requireRole("INTERN"), createProfile);
+
+router.get("/", requireAuth, getProfile);
+router.put("/", requireAuth, updateProfile);
+router.delete("/", requireAuth, deleteProfile);
 
 module.exports = router;

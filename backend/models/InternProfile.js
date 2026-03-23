@@ -14,9 +14,10 @@ const internProfileSchema = new mongoose.Schema({
   },
 
   phoneNumber: {
-    type: String,
-    required: [true, "Phone number is required"]
-  },
+  type: String,
+  required: [true, "Phone number is required"],
+  match: [/^[0-9]{10}$/, "Phone number must be 10 digits"]
+},
 
   dateOfBirth: {
     type: Date,
@@ -38,14 +39,16 @@ const internProfileSchema = new mongoose.Schema({
   },
 
   gender: {
-    type: String,
-    required: true
-  },
+  type: String,
+  enum: ["Male", "Female", "Other"],
+  required: [true, "Gender is required"]
+},
 
   collegeName: {
-    type: String,
-    required: true
-  },
+  type: String,
+  required: true,
+  minlength: [3, "College name too short"]
+},
 
   degree: {
     type: String,
@@ -57,17 +60,6 @@ const internProfileSchema = new mongoose.Schema({
     required: true
   },
 
-  linkedinUrl: {
-    type: String,
-    required: true,
-    match: [/^https?:\/\/.+/, "Enter valid LinkedIn URL"]
-  },
-
-  githubUrl: {
-    type: String,
-    required: true,
-    match: [/^https?:\/\/.+/, "Enter valid GitHub URL"]
-  },
 
   internshipStartDate: {
     type: Date,
