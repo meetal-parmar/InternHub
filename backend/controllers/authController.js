@@ -3,9 +3,13 @@ const bcrypt = require('bcrypt');
 const validator = require('validator');
 const jwt = require("jsonwebtoken");
 
-const createToken = (_id)=>{
-    return jwt.sign({_id},process.env.SECRET,{expiresIn: "7d"})
-}
+const createToken = (_id, role) => {
+  return jwt.sign(
+    { id: _id, role },
+    process.env.SECRET,
+    { expiresIn: "7d" }
+  );
+};
 
 exports.signupUser = async (req, res) => {
   try {
@@ -60,7 +64,7 @@ exports.signupUser = async (req, res) => {
     });
 
     const maxAge = 7 * 24 * 60 * 60;
-    const token = createToken(user._id);
+   const token = createToken(user._id, user.role);
     res.cookie('jwt',token,{
         httpOnly:true, 
         maxAge:maxAge * 1000,
@@ -110,7 +114,7 @@ exports.loginUser = async(req,res)=>{
             });
         }
         const maxAge = 7 * 24 * 60 * 60;
-        const token = createToken(user._id);
+       const token = createToken(user._id, user.role);
         res.cookie('jwt',token,{
             httpOnly: true,
             maxAge: maxAge * 1000,
@@ -120,6 +124,7 @@ exports.loginUser = async(req,res)=>{
 
         res.status(200).json({
         message: "Login successful",
+        token,
          user: {
     _id: user._id,          
     email: user.email,   
