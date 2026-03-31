@@ -47,10 +47,9 @@ function ProfileMentor() {
     setErrors(data.errors);
   }
 
-  // show message inline instead of alert
+ 
   if (data.errors.profile === "Mentor profile already exists") {
-    // setMessage("Profile already exists");
-    // setMessageType("info");
+  
      alert("Profile already exists !! ");
   } else if (!data.errors && data.message) {
     setMessage(data.message);
