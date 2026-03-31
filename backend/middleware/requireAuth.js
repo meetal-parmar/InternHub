@@ -5,7 +5,6 @@ exports.requireAuth = async (req, res, next) => {
   try {
     let token = null;
 
-    // ✅ React frontend Bearer token
     if (
       req.headers.authorization &&
       req.headers.authorization.startsWith("Bearer ")
@@ -13,7 +12,7 @@ exports.requireAuth = async (req, res, next) => {
       token = req.headers.authorization.split(" ")[1];
     }
 
-    // ✅ Postman / cookie support
+   
     if (!token && req.cookies && req.cookies.jwt) {
       token = req.cookies.jwt;
     }
@@ -24,7 +23,6 @@ exports.requireAuth = async (req, res, next) => {
 
     const decoded = jwt.verify(token, process.env.SECRET);
 
-    // ⚠️ your token now uses id
     const user = await User.findById(decoded.id || decoded._id);
 
     if (!user) {
