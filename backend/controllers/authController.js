@@ -3,6 +3,105 @@ const bcrypt = require('bcrypt');
 const validator = require('validator');
 const jwt = require("jsonwebtoken");
 
+const sendEmail = require('../utils/sendOtp');
+
+// 1. SEND OTP
+exports.forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    const cleanEmail = email.trim().toLowerCase();
+    const user = await User.findOne({ email: cleanEmail });
+    if (!user) return res.status(404).json({ msg: "User not found" });
+
+    const otp = Math.floor(100000 + Math.random() * 900000).toString();
+
+    user.otp = otp;
+    user.otpExpire = Date.now() + 5 * 60 * 1000;
+    await user.save();
+
+    await sendEmail(
+      cleanEmail,
+      "Password Reset OTP",
+      `Your OTP is ${otp}. It expires in 5 minutes.`
+    );
+
+    res.json({ msg: "OTP sent" });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// 2. VERIFY OTP
+exports.verifyOTP = async (req, res) => {
+  try {
+    const { email, otp } = req.body;
+
+    if (!otp) {
+      return res.status(400).json({ msg: "Enter OTP" });
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+    const user = await User.findOne({ email: cleanEmail });
+
+    if (!user) {
+      return res.status(404).json({ msg: "User not found" });
+    }
+
+    if (user.otpExpire < Date.now()) {
+      return res.status(400).json({ msg: "OTP expired" });
+    }
+
+    if (user.otp !== otp.toString().trim()) {
+      return res.status(400).json({ msg: "Invalid OTP" });
+    }
+
+    res.json({ msg: "OTP verified" });
+
+  } catch (err) {
+    console.log(err); // 
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// 3. RESET PASSWORD
+exports.resetPassword = async (req, res) => {
+  try {
+    const { email, password, confirmPassword } = req.body;
+
+    if (!password || !confirmPassword) {
+      return res.status(400).json({ msg: "All fields are required" });
+    }
+
+    if (password !== confirmPassword) {
+      return res.status(400).json({ msg: "Passwords do not match" });
+    }
+
+    const cleanEmail = email.trim().toLowerCase();
+    const user = await User.findOne({ email: cleanEmail });
+    if (!user) return res.status(404).json({ msg: "User not found" });
+
+    if (!user.otp || user.otpExpire < Date.now()) {
+      return res.status(400).json({ msg: "OTP not verified or expired" });
+    }
+
+    const salt = await bcrypt.genSalt(10);
+    const hash = await bcrypt.hash(password, salt);
+
+    user.password = hash; // auto hashed by model
+    user.otp = undefined;
+    user.otpExpire = undefined;
+
+    await user.save();
+
+    res.json({ msg: "Password reset successful" });
+
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
 const createToken = (_id, role) => {
   return jwt.sign(
     { id: _id, role },

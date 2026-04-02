@@ -40,6 +40,14 @@ const userSchema = new mongoose.Schema({
          return this.role === "INTERN";
        }
     }
+    ,
+    otp: {
+    type: String
+  },
+
+  otpExpire: {
+    type: Date
+  }
   },
   {
     timestamps: {
