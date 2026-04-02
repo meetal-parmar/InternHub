@@ -1,16 +1,15 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import ProfileMentor from "./pages/profile/ProfileMentor";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ProfilePage from "./pages/profile/ProfilePage";
 
 function App() {
-
   return (
-    <>
-      <ProfileMentor/>
-    </>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<ProfilePage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
