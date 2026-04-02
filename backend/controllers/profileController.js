@@ -96,27 +96,23 @@ exports.updateProfile = async (req, res) => {
     const userId = req.user._id;
     const role = req.user.role;
 
-    let updated;
+    let profile;
 
     if (role === "INTERN") {
-      updated = await InternProfile.findOneAndUpdate(
-        { userId },
-        req.body,
-        { new: true, runValidators: true }
-      );
+      profile = await InternProfile.findOne({ userId });
     } else if (role === "MENTOR") {
-      updated = await MentorProfile.findOneAndUpdate(
-        { userId },
-        req.body,
-        { new: true, runValidators: true }
-      );
+      profile = await MentorProfile.findOne({ userId });
     }
 
-    if (!updated) {
+    if (!profile) {
       return res.status(404).json({
         errors: { profile: "Profile not found" }
       });
     }
+
+    Object.assign(profile, req.body);
+
+    const updated = await profile.save();
 
     res.json({
       message: "Profile updated",
@@ -124,7 +120,6 @@ exports.updateProfile = async (req, res) => {
     });
 
   } catch (err) {
-
     if (err.name === "ValidationError") {
       let errors = {};
       for (let field in err.errors) {
@@ -138,7 +133,6 @@ exports.updateProfile = async (req, res) => {
     });
   }
 };
-
 
 exports.deleteProfile = async (req, res) => {
   try {

@@ -46,29 +46,29 @@ const internProfileSchema = new mongoose.Schema({
 
   collegeName: {
   type: String,
-  required: true,
+  required: [true,"college name is required"],
   minlength: [3, "College name too short"]
 },
 
   degree: {
     type: String,
-    required: true
+   required: [true, "degree is required"]
   },
 
   yearOrSemester: {
     type: String,
-    required: true
+     required: [true, "please enter year or semester"]
   },
 
 
   internshipStartDate: {
     type: Date,
-    required: true
+    required: [true, "internship start date is required"]
   },
 
   internshipEndDate: {
     type: Date,
-    required: true,
+     required: [true, "internship end date is required"],
     validate: {
       validator: function (value) {
         return value > this.internshipStartDate;
