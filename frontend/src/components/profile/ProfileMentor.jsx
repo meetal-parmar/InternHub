@@ -157,8 +157,8 @@ function ProfileMentor({ initialData = null, isEdit = false, onSuccess }) {
     try {
       const res = await fetch(
         isEdit
-          ? "http://localhost:5000/profile"
-          : "http://localhost:5000/profile/mentor",
+          ? "http://localhost:3000/profile"
+          : "http://localhost:3000/profile/mentor",
         {
           method: isEdit ? "PUT" : "POST",
           headers: {

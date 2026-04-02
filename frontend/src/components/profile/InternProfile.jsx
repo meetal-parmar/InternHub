@@ -41,8 +41,8 @@ function InternProfile({ initialData = {}, isEdit = false, onSuccess }) {
     try {
       const res = await fetch(
   isEdit
-    ? "http://localhost:5000/profile"
-    : "http://localhost:5000/profile/intern",
+    ? "http://localhost:3000/profile"
+    : "http://localhost:3000/profile/intern",
   {
     method: isEdit ? "PUT" : "POST",
     headers: {

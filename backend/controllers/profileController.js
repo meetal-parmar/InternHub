@@ -77,9 +77,7 @@ exports.getProfile = async (req, res) => {
     }
 
     if (!profile) {
-      return res.status(404).json({
-        errors: { profile: "Profile not found" }
-      });
+      return res.status(200).json(null);
     }
 
     res.json(profile);

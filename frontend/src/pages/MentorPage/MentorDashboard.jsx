@@ -1,7 +1,8 @@
-import { useAuth } from "../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 import { useNavigate } from "react-router-dom";
+import ProfileMentor from "../../components/profile/ProfileMentor";
 
-export default function Dashboard(){
+export default function MentorDashboard(){
   const { user, dispatch } = useAuth();
   const navigate = useNavigate();
 
@@ -14,6 +15,11 @@ export default function Dashboard(){
     navigate("/");
   };
 
+//       {console.log(user._id);
+//       console.log(user.role);
+//       console.log(user.email);
+// }
+
   return (
     <div>
       <h2>Welcome {user?.email}</h2>
@@ -25,6 +31,9 @@ export default function Dashboard(){
       )}
 
       <button onClick={logout}>Logout</button>
+      <div>
+        <button onClick={()=>navigate("/profile")}>Profile</button>
+      </div>
     </div>
   );
 }

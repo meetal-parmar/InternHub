@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../style/login.css";
+import { useAuth } from "../context/AuthContext";
+
 
 export default function Login() {
   const navigate = useNavigate();
+  const { dispatch } = useAuth();
   const [showPassword, setShowPassword] = useState(false);
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
@@ -19,7 +22,17 @@ export default function Login() {
       });
       const data = await res.json();
       if (res.ok) {
-        navigate("/dashboard");
+        localStorage.setItem("user", JSON.stringify(data.user));
+        localStorage.setItem("token", data.token); 
+      localStorage.setItem("role", data.user.role);
+
+        dispatch({ type: "LOGIN", payload: data.user });
+
+        if (data.user.role === "MENTOR") {
+            navigate("/mentor-dashboard");
+        } else if (data.user.role === "INTERN") {
+            navigate("/intern-dashboard");
+        }
       } else {
         setError(data.errors?.email || data.errors?.password || data.message || "Incorrect email or password");
       }
@@ -33,7 +46,6 @@ export default function Login() {
       <div className="login-card-white">
         <div className="card-header">
           <h3>Login</h3>
-          <p>Please enter your details</p>
         </div>
 
         <div className="form-body">
