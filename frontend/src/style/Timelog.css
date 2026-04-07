@@ -1,0 +1,392 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+:root {
+    --primary: #2563eb;
+    --bg-page: #f8fafc;
+    --text-main: #1e293b;
+    --text-muted: #64748b;
+    --border: #cbd5e1;
+    --white: #ffffff;
+}
+
+.timelog-page-container {
+    background-color: var(--bg-page);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    padding: 2rem;
+    color: var(--text-main);
+}
+
+/* --- HEADER (DATEPICKER RIGHT SIDE) --- */
+.page-header-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.timelog-title {
+    font-size: 1.2rem;
+    font-weight: 800;
+    margin: 0;
+}
+
+.blue-hours {
+    color: var(--primary);
+}
+
+.datepicker-right-wrapper {
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* --- DATEPICKER INPUT --- */
+.icon-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.calendar-svg-icon {
+    position: absolute;
+    left: 10px;
+    width: 18px;
+    height: 18px;
+    color: var(--text-muted);
+    z-index: 10;
+    pointer-events: none;
+}
+
+.datepicker-custom-input {
+    width: 170px;
+    height: 40px;
+    padding: 0 10px 0 38px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--text-main);
+    cursor: pointer;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.datepicker-custom-input:hover {
+    border-color: var(--primary);
+}
+
+/* --- DATEPICKER DROPDOWN --- */
+.premium-calendar {
+    font-family: 'Inter', sans-serif !important;
+    border: none !important;
+    border-radius: 12px !important;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15) !important;
+}
+
+.react-datepicker__header {
+    background-color: white !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.react-datepicker__day--selected {
+    background-color: var(--primary) !important;
+    border-radius: 50% !important;
+}
+
+/* --- FORM --- */
+/* .professional-form {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 12px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1.25rem;
+    align-items: flex-end;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid var(--border);
+    margin-bottom: 2rem;
+} */
+ /* --- FORM LAYOUT FIX --- */
+.professional-form {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: 12px;
+    display: grid;
+    /* Is line ko dhyan se update karein: 
+       Pehli 3 fields barabar, Description (4th) sabse lambi (2.5fr), 
+       aur Button (5th) sabse choti (auto) */
+    grid-template-columns: 1fr 1fr 1fr 2.5fr auto; 
+    gap: 1.25rem;
+    align-items: flex-end;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    border: 1px solid var(--border);
+    margin-bottom: 2rem;
+}
+
+/* --- DESCRIPTION FIELD (LAMBI) --- */
+.input-group:nth-child(4) {
+    flex: 1;
+}
+
+.form-input[placeholder*="What did you work on?"] {
+    width: 100%; /* Pure available space ko use karega */
+}
+
+/* --- ADD LOG BUTTON (CHOTA AUR GRADIENT) --- */
+.submit-btn {
+    height: 45px;
+    width: 130px; /* Isse width choti ho jayegi */
+    background: linear-gradient(62deg, #2089f3 0% ) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap; /* Text ko ek line mein rakhne ke liye */
+    padding: 0 20px;
+}
+
+.submit-btn:hover {
+    filter: brightness(1.05);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(142, 197, 252, 0.4);
+}
+/* Work Description input field specifically */
+.form-input[placeholder*="What did you work on?"]:hover,
+.form-input:hover, 
+.form-select:hover {
+    border-color: #2563eb; /* Blue color */
+    outline: none;
+    box-shadow: 0 0 0 1px rgba(37, 99, 235, 0.1); /* Halka sa blue glow focus ke liye */
+}
+
+/* Jab box ke andar click karein (Focus state) */
+.form-input:focus, 
+.form-select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    outline: none;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.field-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--text-muted);
+    text-transform: uppercase;
+}
+
+/* --- TIME BOX --- */
+.time-box {
+    height: 45px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    padding: 0 1rem;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--text-main);
+    transition: all 0.2s ease;
+}
+
+.time-box:hover {
+    border-color: var(--primary);
+}
+
+/* --- TIME DROPDOWN (ADDED FROM SECOND CSS) --- */
+.custom-time-dropdown {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    width: 220px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    z-index: 1000;
+    padding: 10px;
+}
+
+.picker-columns {
+    display: flex;
+    justify-content: space-between;
+    max-height: 180px;
+    overflow-y: auto;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    width: 30%;
+}
+
+.column div {
+    padding: 6px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    color: var(--text-main);
+    transition: all 0.1s ease-in-out;
+}
+
+.column div:hover {
+    background: #f1f5f9;
+}
+
+.column div.active {
+    background: var(--primary);
+    color: white;
+}
+
+/* .ok-btn {
+    width: 30%;
+    margin-top: 10px;
+    margin-left: 33%;
+    color: white;
+    border-color: var(--primary);
+    padding: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+} */
+ .ok-btn {
+    width: 30%;
+    margin-top: 10px;
+    margin-left: 33%;
+    
+    /* Default State: White background with Primary Border */
+    background: white; 
+    color: var(--primary); /* Text color initially primary */
+    border: 2px solid var(--primary); /* Border color primary */
+    
+    padding: 6px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    
+    /* Smooth Transition Effect */
+    transition: all 0.3s ease;
+}
+
+/* Hover State: Background fills with Primary color */
+.ok-btn:hover {
+    background: var(--primary);
+    color: white; /* Text turns white on hover */
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2); /* Optional: halka sa glow */
+}
+
+/* --- INPUTS --- */
+.form-input, .form-select {
+    height: 45px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0 1rem;
+    font-size: 0.9rem;
+    color: var(--text-main);
+}
+
+.submit-btn {
+    height: 45px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.submit-btn:hover {
+    opacity: 0.9;
+}
+
+/* --- TABLE --- */
+.table-card {
+    background: var(--white);
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    overflow: hidden;
+}
+
+.pro-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.pro-table th {
+    background: #f8fafc;
+    padding: 1rem;
+    text-align: left;
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.pro-table td {
+    padding: 1rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+/* --- ACTION BUTTONS --- */
+/* --- ACTION BUTTONS FIX --- */
+.actions-wrapper {
+    display: flex;
+    flex-direction: row !important;
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-left: 25%;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    border: none;
+    background: transparent; /* Background nahi chahiye tha */
+    cursor: pointer;
+    transition: all 0.2s ease;
+    padding: 0;
+}
+
+/* Default Icon Color (Hamesha visible rahega) */
+.action-btn svg {
+    color: #475569; /* Dark Grey/Blackish color */
+    display: block;
+}
+
+/* Hover State: Update (Blue) */
+.edit-btn:hover {
+    background: #eff6ff; /* Very light blue background on hover */
+}
+.edit-btn:hover svg {
+    color: #2563eb; /* Blue Icon */
+    transform: scale(1.1);
+}
+
+/* Hover State: Delete (Red) */
+.delete-btn:hover {
+    background: #fef2f2; /* Very light red background on hover */
+}
+.delete-btn:hover svg {
+    color: #ef4444; /* Red Icon */
+    transform: scale(1.1);
+}
+
+.action-btn:active {
+    transform: scale(0.9);
+}

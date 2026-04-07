@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../style/login.css"; // Hum same CSS file use kar sakte hain
+import toast from "react-hot-toast";
 
 export default function ResetPassword() {
   const [password, setPassword] = useState("");
@@ -10,7 +12,7 @@ export default function ResetPassword() {
     const email = localStorage.getItem("resetEmail");
 
     if (!email) {
-      alert("Session expired. Start again.");
+      toast.error("Session expired. Start again.");
       navigate("/forgot");
       return;
     }
@@ -18,48 +20,72 @@ export default function ResetPassword() {
     try {
       const res = await fetch("http://localhost:3000/auth/reset-password", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          email,
-          password,
-          confirmPassword
-        })
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password, confirmPassword })
       });
 
       const data = await res.json();
 
       if (res.ok) {
-        alert("Password reset successful");
-        localStorage.removeItem("resetEmail"); // 🔥 clean
-        navigate("/");
+        toast.success("Password has been reset successfully!", {
+          duration: 3000, // Yeh 5 second tak dikhega
+        });
+        localStorage.removeItem("resetEmail");
+        setTimeout(() => {
+          navigate("/Login"); 
+        }, 2000);
       } else {
-        alert(data.msg);
+        toast.error(data.msg || "Reset failed");
       }
-
     } catch {
-      alert("Server error");
+      toast.error("Server error. Please try again.");
     }
   };
 
   return (
-    <div>
-      <h2>Reset Password</h2>
+    <div className="login-page">
+      <div className="login-card-white">
+        <div className="card-header">
+          <h3>Reset Password</h3>
+          <p>Please enter your new password below.</p>
+        </div>
 
-      <input 
-        type="password"
-        placeholder="New Password"
-        onChange={(e) => setPassword(e.target.value)}
-      />
+        <div className="form-body">
+          {/* New Password */}
+          <div className="input-group-custom">
+            <div className="input-with-icon">
+              <i className="bi bi-lock"></i>
+              <input 
+                type="password"
+                placeholder="New Password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+            </div>
+          </div>
 
-      <input 
-        type="password"
-        placeholder="Confirm Password"
-        onChange={(e) => setConfirmPassword(e.target.value)}
-      />
+          {/* Confirm Password */}
+          <div className="input-group-custom">
+            <div className="input-with-icon">
+              <i className="bi bi-shield-check"></i>
+              <input 
+                type="password"
+                placeholder="Confirm Password"
+                onChange={(e) => setConfirmPassword(e.target.value)}
+              />
+            </div>
+          </div>
 
-      <button onClick={reset}>Reset Password</button>
+          <button className="btn-login-main" onClick={reset} style={{ marginTop: "10px" }}>
+            Reset Password
+          </button>
+
+          <div className="signup-footer">
+            <span onClick={() => navigate("/")} style={{ cursor: "pointer", color: "#667eea" }}>
+              Back to Login
+            </span>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -30,7 +30,6 @@ exports.requireAuth = async (req, res, next) => {
     }
 
     req.user = user;
-    console.log("Logged in user role:", req.user.role);
     next();
   } catch (error) {
     console.log("Auth Error:", error.message);

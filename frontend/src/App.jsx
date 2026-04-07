@@ -3,6 +3,7 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { Toaster } from 'react-hot-toast';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Home from "./pages/Home";
@@ -15,10 +16,23 @@ import VerifyOtp from "./pages/VerifyOtp";
 import ResetPassword from "./pages/ResetPassword";
 import MentorDashboard from "./pages/MentorPage/MentorDashboard";
 import ProfilePage from "./pages/profile/ProfilePage";
+import TimelogPage from './pages/InternPage/TimeLogPage';
+import MonthlySummaryPage from './pages/InternPage/MonthlySummaryPage';
 
 function App() {
   return (
     <BrowserRouter>
+    <Toaster 
+        position="top-right" 
+        reverseOrder={false} 
+        toastOptions={{
+          duration: 5000, 
+          style: {
+            fontFamily: 'Poppins, sans-serif',
+            fontSize: '14px',
+          },
+        }}
+      />
       <Routes>
 
         <Route path="/" element={<Home/>}/>
@@ -31,6 +45,8 @@ function App() {
         <Route path="/verify" element={<VerifyOtp/>}/>
         <Route path="/reset" element={<ResetPassword/>}/>
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path='/timelog' element={<TimelogPage/>}/>
+        <Route path="/monthlySummary" element={<MonthlySummaryPage />} />
       </Routes>
     </BrowserRouter>
   );

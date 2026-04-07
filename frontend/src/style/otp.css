@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+.otp-page {
+  height: 100vh;
+  width: 100%;
+  background: linear-gradient(135deg, #b2b9ff 0%, #d8baff 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Poppins', sans-serif;
+  position: relative;
+}
+
+.otp-card-dark {
+  background-color: #0b1120;
+  width: 100%;
+  max-width: 420px;
+  padding: 40px;
+  border-radius: 20px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.card-header h3 {
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 8px;
+  font-size: 24px;
+}
+
+.card-header p {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 30px;
+}
+
+.form-body {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.otp-inputs-container {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.otp-input-field {
+  width: 45px;
+  height: 45px;
+  border: none;
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  color: white;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  outline: none;
+  transition: box-shadow 0.2s;
+}
+
+.otp-input-field:focus {
+  box-shadow: 0 0 0 2px rgba(118, 75, 162, 0.5);
+}
+
+.notification-toast {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background-color: #fff;
+  color: #333;
+  padding: 12px 20px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  border-bottom: 3px solid #667eea;
+  animation: slideInRight 0.3s ease;
+  z-index: 1000;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.success-icon {
+  color: #3182ce;
+}
+
+.notification-close {
+  margin-left: auto;
+  cursor: pointer;
+  color: #777;
+}
+
+.btn-submit-main {
+  width: 100%;
+  padding: 14px;
+  background-color: #4c51bf;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-submit-main:hover {
+  background-color: #434190;
+}
+
+.btn-submit-main:disabled {
+  background-color: #718096;
+  cursor: not-allowed;
+}
+
+.signup-footer {
+  margin-top: 20px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.signup-footer a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+}

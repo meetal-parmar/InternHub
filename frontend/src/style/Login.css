@@ -4,7 +4,11 @@
 .login-page {
   height: 100vh;
   width: 100%;
-  background: linear-gradient(135deg, #667eea, #764ba2); /* Matches Front Page */
+  /* background: linear-gradient(135deg, #667eea, #764ba2); Matches Front Page */
+  /* background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%); */
+background-color: #8EC5FC;
+background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);  
+  
   display: flex;
   justify-content: center;
   align-items: center;

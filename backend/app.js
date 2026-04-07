@@ -3,6 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/authRoutes');
 const mentorRoutes = require('./routes/mentorRoutes');
+const internRoutes = require('./routes/internRoutes');
 const app = express();
 
 const cors = require('cors');
@@ -25,6 +26,7 @@ app.use(cookieParser());
 
 app.use('/auth', userRoutes);
 app.use('/mentor', mentorRoutes);
+app.use('/intern',internRoutes);
 
 const profileRoutes = require("./routes/ProfileRoutes");
 app.use("/profile", profileRoutes);
