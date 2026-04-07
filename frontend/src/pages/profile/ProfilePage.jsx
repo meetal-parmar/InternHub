@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import ProfileMentor from "../../components/profile/ProfileMentor";
 import InternProfile from "../../components/profile/InternProfile";
+import "../../style/ProfileView.css"; 
 
 function ProfilePage() {
   const [profile, setProfile] = useState(null);
@@ -10,27 +11,23 @@ function ProfilePage() {
   const role = localStorage.getItem("role");
   const token = localStorage.getItem("token");
 
+  // Keep your existing date logic
   const formatDate = (dateString) => {
-    if (!dateString) return "";
-
+    if (!dateString) return "N/A";
     const date = new Date(dateString);
     const day = String(date.getDate()).padStart(2, "0");
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
-
     return `${day}-${month}-${year}`;
   };
 
+  // Keep your existing fetch logic
   const fetchProfile = async () => {
     try {
       const res = await fetch("http://localhost:3000/profile", {
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+        headers: { Authorization: `Bearer ${token}` }
       });
-
       const data = await res.json();
-
       if (res.ok) {
         setProfile(data);
       } else {
@@ -49,76 +46,110 @@ function ProfilePage() {
   }, []);
 
   if (loading) {
-    return <h2>Loading profile...</h2>;
-  }
-
-  // CREATE MODE
-  if (!profile) {
     return (
-      <div>
-        <h2>Create Your Profile</h2>
-        {role === "MENTOR" ? (
-          <ProfileMentor onSuccess={fetchProfile} />
-        ) : (
-          <InternProfile onSuccess={fetchProfile} />
-        )}
+      <div className="view-wrapper">
+        <h2 className="view-title">Loading profile...</h2>
       </div>
     );
   }
 
-  // EDIT MODE
-  if (editMode) {
+  // CREATE OR EDIT MODE (Logic Unchanged)
+  if (!profile || editMode) {
+    const TargetComponent = role === "MENTOR" ? ProfileMentor : InternProfile;
     return (
-      <div>
-        {role === "MENTOR" ? (
-          <ProfileMentor
-            initialData={profile}
-            isEdit={true}
-            onSuccess={() => {
-              fetchProfile();
-              setEditMode(false);
-            }}
-          />
-        ) : (
-          <InternProfile
-            initialData={profile}
-            isEdit={true}
-            onSuccess={() => {
-              fetchProfile();
-              setEditMode(false);
-            }}
-          />
-        )}
-      </div>
+      <TargetComponent 
+        initialData={profile || {}} 
+        isEdit={!!profile} 
+        onSuccess={() => {
+          fetchProfile();
+          setEditMode(false);
+        }} 
+      />
     );
   }
+
+  const userInitial = profile.fullName ? profile.fullName.charAt(0).toUpperCase() : "?";
 
   // VIEW MODE
   return (
-    <div>
-      <h2>Your Profile</h2>
+    <div className="view-wrapper">
+      <div className="view-card">
+        
+        {/* Header Section */}
+        <div className="profile-card-header">
+          <button className="edit-btn-top" onClick={() => setEditMode(true)}>
+            Edit 
+          </button>
+          <div className="avatar-circle">{userInitial}</div>
+        </div>
 
-      <button onClick={() => setEditMode(true)}>
-        ✏️ Edit
-      </button>
+        {/* User Intro */}
+        <div className="user-intro">
+          <h2 className="view-title">{profile.fullName}</h2>
+          <span className="role-badge">
+            {role === "MENTOR" ? "Official Mentor" : "Intern Student"}
+          </span>
+        </div>
 
-      <div>
-        <p><strong>Name:</strong> {profile.fullName}</p>
-        <p><strong>Phone:</strong> {profile.phoneNumber}</p>
-        <p><strong>Gender:</strong> {profile.gender}</p>
+        {/* Detailed Info List */}
+        <div className="info-section">
+          
+          <div className="info-item">
+            <span className="info-icon">📞</span>
+            <div className="info-text">
+              <span className="info-label">Contact Number</span>
+              <span className="info-value">{profile.phoneNumber}</span>
+            </div>
+          </div>
 
-        {role === "MENTOR" ? (
-          <p><strong>Expertise:</strong> {profile.expertise}</p>
-        ) : (
-          <>
-            <p><strong>Date of Birth:</strong> {formatDate(profile.dateOfBirth)}</p>
-            <p><strong>College:</strong> {profile.collegeName}</p>
-            <p><strong>Degree:</strong> {profile.degree}</p>
-            <p><strong>Semester:</strong> {profile.yearOrSemester}</p>
-            <p><strong>Internship Start:</strong> {formatDate(profile.internshipStartDate)}</p>
-            <p><strong>Internship End:</strong> {formatDate(profile.internshipEndDate)}</p>
-          </>
-        )}
+          <div className="info-item">
+            <span className="info-icon">👤</span>
+            <div className="info-text">
+              <span className="info-label">Gender</span>
+              <span className="info-value">{profile.gender}</span>
+            </div>
+          </div>
+
+          {role === "MENTOR" ? (
+            <div className="info-item">
+              <span className="info-icon">💡</span>
+              <div className="info-text">
+                <span className="info-label">Primary Expertise</span>
+                <div>
+                  <span className="expertise-badge">{profile.expertise}</span>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="info-item">
+                <span className="info-icon">🏫</span>
+                <div className="info-text">
+                  <span className="info-label">College Name</span>
+                  <span className="info-value">{profile.collegeName}</span>
+                </div>
+              </div>
+
+              <div className="info-item">
+                <span className="info-icon">🎓</span>
+                <div className="info-text">
+                  <span className="info-label">Degree & Semester</span>
+                  <span className="info-value">{profile.degree} — {profile.yearOrSemester}</span>
+                </div>
+              </div>
+
+              <div className="info-item">
+                <span className="info-icon">📅</span>
+                <div className="info-text">
+                  <span className="info-label">Internship Tenure</span>
+                  <span className="info-value">
+                    {formatDate(profile.internshipStartDate)} to {formatDate(profile.internshipEndDate)}
+                  </span>
+                </div>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

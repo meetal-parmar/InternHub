@@ -1,0 +1,388 @@
+/* Container & Layout */
+.materials-page {
+  padding: 40px;
+  background: #f8fafc;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+.materials-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+}
+
+.materials-header h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0;
+}
+
+.add-material-btn {
+  border: none;
+  background: #2563eb;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: background 0.2s;
+}
+
+.add-material-btn:hover {
+  background: #1d4ed8;
+}
+
+/* Grid System - Fixed Layout */
+.materials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+/* Card Design */
+.material-card {
+  background: white;
+  border-radius: 20px;
+  padding: 24px;
+  min-height: 250px;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+  border: 1px solid #f1f5f9;
+}
+
+.material-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(15, 23, 42, 0.1);
+  border-color: #e2e8f0;
+}
+
+.card-top-icon {
+  font-size: 22px;
+  color: #2563eb;
+  margin-bottom: 15px;
+}
+
+.material-card h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 12px;
+}
+
+.stat-text {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #64748b;
+  margin: 8px 0;
+  font-size: 14px;
+}
+
+.stat-icon {
+  color: #94a3b8;
+}
+
+/* Tooltip Trigger Area */
+.intern-trigger {
+  position: relative;
+  width: fit-content;
+  cursor: pointer;
+}
+
+.intern-trigger:hover .stat-text {
+  color: #2563eb;
+}
+
+/* Professional Floating Tooltip */
+.intern-tooltip {
+  position: absolute;
+  top: 0;
+  left: 105%;
+  background: white;
+  border: 1px solid #e2e8f0;
+  padding: 14px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  min-width: 200px;
+  z-index: 50;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateX(-10px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.tooltip-header {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: #94a3b8;
+  font-weight: 800;
+  margin-bottom: 10px;
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 5px;
+}
+
+.tooltip-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.intern-tag {
+  background: #f1f5f9;
+  color: #475569;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* Footer & Button */
+.card-footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #f1f5f9;
+  padding-top: 15px;
+}
+
+.date-text {
+  font-size: 12px;
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.view-btn {
+  background: #eff6ff;
+  color: #2563eb;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.view-btn:hover {
+  background: #2563eb;
+  color: white;
+}
+
+.material-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+  padding: 20px;
+}
+
+.material-modal-card {
+  width: 850px;
+  max-width: 95%;
+  background: white;
+  border-radius: 24px;
+  padding: 28px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  animation: popup 0.25s ease;
+}
+
+@keyframes popup {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.material-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 25px;
+}
+
+.material-modal-title-wrap {
+  display: flex;
+  gap: 14px;
+}
+
+.material-modal-icon {
+  font-size: 30px;
+}
+
+.material-modal-title-wrap h2 {
+  margin: 0;
+  font-size: 28px;
+  color: #0f172a;
+}
+
+.material-modal-title-wrap p {
+  margin-top: 5px;
+  color: #64748b;
+}
+
+.close-material-modal {
+  border: none;
+  background: #f1f5f9;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.material-modal-section {
+  margin-bottom: 22px;
+}
+
+.material-modal-section h4 {
+  margin-bottom: 12px;
+  color: #334155;
+}
+
+.material-horizontal-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.mini-card-chip {
+  background: #eff6ff;
+  color: #2563eb;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.material-grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.small-info-card {
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  padding: 16px;
+  border-radius: 16px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  text-decoration: none;
+  color: #0f172a;
+  transition: 0.2s ease;
+}
+
+.small-info-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.link-card {
+  color: #2563eb;
+}
+
+.material-modal-footer {
+  margin-top: 18px;
+  padding-top: 18px;
+  border-top: 1px solid #e2e8f0;
+  color: #64748b;
+  font-size: 14px;
+}
+
+.delete-material-btn {
+  border: none;
+  background: #ef4444;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.delete-material-btn:hover {
+  background: #dc2626;
+}
+.material-delete-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+}
+
+.material-delete-modal {
+  width: 420px;
+  background: white;
+  border-radius: 18px;
+  padding: 28px;
+  text-align: center;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+  animation: popIn 0.25s ease;
+}
+
+.delete-icon-circle {
+  width: 70px;
+  height: 70px;
+  background: #fee2e2;
+  color: #ef4444;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 18px;
+  font-size: 30px;
+}
+
+.delete-modal-actions {
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  margin-top: 20px;
+}
+.delete-icon-btn {
+  width: 45px;
+  height: 42px;
+  border: none;
+  border-radius: 12px;
+  background: #fee2e2;
+  color: #ef4444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 20px;
+  margin-top: 20px;
+}
+
+.delete-icon-btn:hover {
+  background: #ef4444;
+  color: white;
+  transform: scale(1.05);
+}
