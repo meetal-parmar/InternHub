@@ -1,0 +1,146 @@
+/* Container Layout */
+.view-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: #f8fafc;
+  padding: 20px;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Compact Premium Card */
+.view-card {
+  background: #ffffff;
+  width: 100%;
+  max-width: 400px; 
+  border-radius: 24px;
+  padding: 32px 24px;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+  border: 1px solid #f1f5f9;
+  text-align: center; /* Centers the header content */
+}
+
+/* Header Section */
+.profile-card-header {
+  position: relative;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.avatar-circle {
+  width: 85px;
+  height: 85px;
+  background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
+  color: #2563eb;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.2rem;
+  font-weight: 800;
+  box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.1);
+  margin-bottom: 15px;
+}
+
+.edit-btn-top {
+  position: absolute;
+  top: -10px;
+  right: -5px;
+  background: #fff;
+  border: 1px solid #e2e8f0;
+  padding: 6px 12px;
+  border-radius: 10px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.edit-btn-top:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+}
+
+/* Text Styling */
+.user-intro {
+  margin-bottom: 28px;
+}
+
+.view-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #1e293b;
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.role-badge {
+  font-size: 0.7rem;
+  color: #3b82f6;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-top: 6px;
+  display: inline-block;
+}
+
+/* Info Section */
+.info-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left; /* Aligns list items back to left */
+}
+
+.info-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px;
+  background: #fcfcfd;
+  border-radius: 16px;
+  border: 1px solid #f1f5f9;
+}
+
+.info-icon {
+  font-size: 1.1rem;
+  opacity: 0.9;
+}
+
+.info-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-label {
+  font-size: 0.6rem;
+  color: #94a3b8;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 2px;
+}
+
+.info-value {
+  font-size: 0.9rem;
+  color: #334155;
+  font-weight: 600;
+}
+
+.expertise-badge {
+  background: #ecfdf5;
+  color: #059669;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-top: 4px;
+  display: inline-block;
+}

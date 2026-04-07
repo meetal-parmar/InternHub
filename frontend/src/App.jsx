@@ -18,6 +18,15 @@ import MentorDashboard from "./pages/MentorPage/MentorDashboard";
 import ProfilePage from "./pages/profile/ProfilePage";
 import TimelogPage from './pages/InternPage/TimeLogPage';
 import MonthlySummaryPage from './pages/InternPage/MonthlySummaryPage';
+import MyInternsPage from "./pages/MentorPage/MyInternsPage";
+import InternDetails from "./pages/MentorPage/InternDetails";
+import AssignTask from "./pages/MentorPage/AssignTask"; 
+import MentorTasks from "./pages/MentorPage/MentorTasks";
+import ReviewTasks from "./pages/MentorPage/ReviewTasks";
+import AddMaterial from "./pages/MentorPage/AddMaterial";
+import MentorMaterials from "./pages/MentorPage/MentorMaterials";
+
+
 
 function App() {
   return (
@@ -26,7 +35,8 @@ function App() {
         position="top-right" 
         reverseOrder={false} 
         toastOptions={{
-          duration: 5000, 
+
+          duration: 5000, // 5 seconds tak dikhega
           style: {
             fontFamily: 'Poppins, sans-serif',
             fontSize: '14px',
@@ -47,6 +57,13 @@ function App() {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path='/timelog' element={<TimelogPage/>}/>
         <Route path="/monthlySummary" element={<MonthlySummaryPage />} />
+        <Route path = "/mentor/interns" element = { <MyInternsPage /> } />   
+       <Route path="/mentor/intern/:id" element={<InternDetails />} /> 
+       <Route path="/mentor/assign-task" element={<AssignTask />} />
+       <Route path="/mentor/tasks" element={<MentorTasks />} />
+       <Route path="/mentor/reviews" element={<ReviewTasks />} />
+       <Route path="/mentor/materials/add" element={<AddMaterial />} />
+       <Route path="/mentor/materials" element={<MentorMaterials />} />
       </Routes>
     </BrowserRouter>
   );

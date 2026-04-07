@@ -2,6 +2,8 @@ const User = require('../models/usersModel');
 const bcrypt = require('bcrypt');
 const validator = require('validator');
 const sendEmail = require('../utils/sendEmail');
+const InternProfile = require("../models/InternProfile");
+
 
 exports.createIntern = async (req, res) => {
   try {
@@ -65,3 +67,83 @@ exports.createIntern = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+
+
+exports.getMyInterns = async (req, res) => {
+  try {
+    const mentorId = req.user._id;
+
+    const interns = await User.find({
+      mentor: mentorId,
+      role: "INTERN"
+    }).lean();
+
+    const result = await Promise.all(
+      interns.map(async (intern) => {
+        const profile = await InternProfile.findOne({
+          userId: intern._id
+        });
+
+        return {
+          ...intern,
+          profile
+        };
+      })
+    );
+
+    res.json(result);
+  } catch (error) {
+    res.status(500).json({
+      error: error.message
+    });
+  }
+};
+
+
+exports.getSingleIntern = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const intern = await User.findOne({
+      _id: id,
+      mentor: req.user._id,
+      role: "INTERN"
+    }).select("-password");
+
+    if (!intern) {
+      return res.status(404).json({
+        message: "Intern not found"
+      });
+    }
+
+    const profile = await InternProfile.findOne({
+      userId: intern._id
+    });
+
+    res.json({
+      ...intern.toObject(),
+      profile
+    });
+  } catch (err) {
+    res.status(500).json({
+      message: err.message
+    });
+  }
+};
+
+exports.deactivateIntern = async (req, res) => {
+  try {
+    await User.findByIdAndUpdate(req.params.id, {
+      isActive: false
+    });
+
+    res.json({
+      message: "Intern deactivated"
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: error.message
+    });
+  }
+};
+

@@ -1,255 +1,158 @@
-// import { useEffect, useState } from "react";
-// import { useNavigate, useParams } from "react-router-dom";
-// import "../../style/InternDetails.css";
-
-// export default function InternDetails() {
-//   const { id } = useParams();
-//   const navigate = useNavigate();
-//   const [intern, setIntern] = useState(null);
-
-//   useEffect(() => {
-//     fetchIntern();
-//   }, []);
-
-//   const fetchIntern = async () => {
-//     const token = localStorage.getItem("token");
-
-//     const res = await fetch(`http://localhost:3000/mentor/intern/${id}`, {
-//       headers: {
-//         Authorization: `Bearer ${token}`
-//       }
-//     });
-
-//     const data = await res.json();
-//     if (res.ok) setIntern(data);
-//   };
-
-//   const formatDate = (date) =>
-//     new Date(date).toLocaleDateString("en-GB");
-
-//   if (!intern) return <h2>Loading...</h2>;
-
-//   const profile = intern.profile;
-
-//   return (
-//     <div className="details-page">
-//       <div className="details-topbar">
-//         <h2>Intern Details</h2>
-//         <button className="back-btn" onClick={() => navigate(-1)}>
-//           ← Back
-//         </button>
-//       </div>
-
-//       <div className="details-layout">
-//         {/* LEFT */}
-//         <div className="profile-card">
-//           <div className="avatar-circle">
-//             {intern.name?.charAt(0).toUpperCase()}
-//           </div>
-
-//           <h3>{intern.name}</h3>
-
-//           <div className="profile-item">
-//             <label>Email</label>
-//             <p>{intern.email}</p>
-//           </div>
-
-//           {profile && (
-//             <>
-//               <div className="profile-item">
-//                 <label>Phone</label>
-//                 <p>{profile.phoneNumber}</p>
-//               </div>
-
-//               <div className="profile-item">
-//                 <label>College</label>
-//                 <p>{profile.collegeName}</p>
-//               </div>
-//             </>
-//           )}
-//         </div>
-
-//         {/* RIGHT */}
-//         <div className="info-card">
-//           <h3>Internship Details</h3>
-
-//           {profile ? (
-//             <div className="info-grid">
-//               <div className="info-box">
-//                 <label>Full Name</label>
-//                 <p>{profile.fullName}</p>
-//               </div>
-
-//               <div className="info-box">
-//                 <label>Gender</label>
-//                 <p>{profile.gender}</p>
-//               </div>
-
-//               <div className="info-box">
-//                 <label>DOB</label>
-//                 <p>{formatDate(profile.dateOfBirth)}</p>
-//               </div>
-
-//               <div className="info-box">
-//                 <label>Degree</label>
-//                 <p>{profile.degree}</p>
-//               </div>
-
-//               <div className="info-box">
-//                 <label>Semester</label>
-//                 <p>{profile.yearOrSemester}</p>
-//               </div>
-
-//               <div className="info-box">
-//                 <label>Start Date</label>
-//                 <p>{formatDate(profile.internshipStartDate)}</p>
-//               </div>
-
-//               <div className="info-box">
-//                 <label>End Date</label>
-//                 <p>{formatDate(profile.internshipEndDate)}</p>
-//               </div>
-//             </div>
-//           ) : (
-//             <p>Profile not completed yet</p>
-//           )}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// }
-
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { Mail, Phone, School, Calendar, Clock, GraduationCap, Layers, User } from "lucide-react"; // Icons add kiye
-import "../../style/InternDetails.css";
+import ProfileMentor from "../../components/profile/ProfileMentor";
+import InternProfile from "../../components/profile/InternProfile";
+import "../../style/ProfileView.css"; 
 
-export default function InternDetails() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const [intern, setIntern] = useState(null);
+function ProfilePage() {
+  const [profile, setProfile] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [editMode, setEditMode] = useState(false);
 
-  useEffect(() => {
-    fetchIntern();
-  }, []);
+  const role = localStorage.getItem("role");
+  const token = localStorage.getItem("token");
 
-  const fetchIntern = async () => {
-    const token = localStorage.getItem("token");
-    const res = await fetch(`http://localhost:3000/mentor/intern/${id}`, {
-      headers: { Authorization: `Bearer ${token}` }
-    });
-    const data = await res.json();
-    if (res.ok) setIntern(data);
+  // Keep your existing date logic
+  const formatDate = (dateString) => {
+    if (!dateString) return "N/A";
+    const date = new Date(dateString);
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const year = date.getFullYear();
+    return `${day}-${month}-${year}`;
   };
 
-  const formatDate = (date) => new Date(date).toLocaleDateString("en-GB", {
-    day: '2-digit', month: 'short', year: 'numeric'
-  });
+  // Keep your existing fetch logic
+  const fetchProfile = async () => {
+    try {
+      const res = await fetch("http://localhost:3000/profile", {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      const data = await res.json();
+      if (res.ok) {
+        setProfile(data);
+      } else {
+        setProfile(null);
+      }
+    } catch (err) {
+      console.log(err.message);
+      setProfile(null);
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  if (!intern) return <div className="loading">Loading...</div>;
+  useEffect(() => {
+    fetchProfile();
+  }, []);
 
-  const profile = intern.profile;
-
-  return (
-    <div className="details-page">
-      <div className="details-topbar">
-        <h2>Intern Details</h2>
-        <button className="back-btn" onClick={() => navigate(-1)}>← Back</button>
+  if (loading) {
+    return (
+      <div className="view-wrapper">
+        <h2 className="view-title">Loading profile...</h2>
       </div>
+    );
+  }
 
-      <div className="details-layout">
-        {/* LEFT PROFILE CARD */}
-        <div className="profile-card">
-          <div className="avatar-circle">
-            {intern.name?.charAt(0).toUpperCase()}
-          </div>
-          <h3 className="profile-name">{intern.name}</h3>
-          
-          <hr className="divider" />
+  // CREATE OR EDIT MODE (Logic Unchanged)
+  if (!profile || editMode) {
+    const TargetComponent = role === "MENTOR" ? ProfileMentor : InternProfile;
+    return (
+      <TargetComponent 
+        initialData={profile || {}} 
+        isEdit={!!profile} 
+        onSuccess={() => {
+          fetchProfile();
+          setEditMode(false);
+        }} 
+      />
+    );
+  }
 
-          <div className="profile-info-list">
-            <div className="info-row">
-              <Mail size={18} className="info-icon" />
-              <div>
-                <label>E-Mail</label>
-                <p>{intern.email}</p>
-              </div>
-            </div>
+  const userInitial = profile.fullName ? profile.fullName.charAt(0).toUpperCase() : "?";
 
-            {profile && (
-              <>
-                <div className="info-row">
-                  <Phone size={18} className="info-icon" />
-                  <div>
-                    <label>Phone Number</label>
-                    <p>{profile.phoneNumber}</p>
-                  </div>
-                </div>
-                <div className="info-row">
-                  <School size={18} className="info-icon" />
-                  <div>
-                    <label>College Name</label>
-                    <p>{profile.collegeName}</p>
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
+  // VIEW MODE
+  return (
+    <div className="view-wrapper">
+      <div className="view-card">
+        
+        {/* Header Section */}
+        <div className="profile-card-header">
+          <button className="edit-btn-top" onClick={() => setEditMode(true)}>
+            Edit 
+          </button>
+          <div className="avatar-circle">{userInitial}</div>
         </div>
 
-        {/* RIGHT INFO CARD */}
-        <div className="info-card">
-          <div className="card-tabs">
-            <span className="tab active">Internship Details</span>
+        {/* User Intro */}
+        <div className="user-intro">
+          <h2 className="view-title">{profile.fullName}</h2>
+          <span className="role-badge">
+            {role === "MENTOR" ? "Official Mentor" : "Intern Student"}
+          </span>
+        </div>
+
+        {/* Detailed Info List */}
+        <div className="info-section">
+          
+          <div className="info-item">
+            <span className="info-icon">📞</span>
+            <div className="info-text">
+              <span className="info-label">Contact Number</span>
+              <span className="info-value">{profile.phoneNumber}</span>
+            </div>
           </div>
 
-          {profile ? (
-            <div className="details-grid">
-              <div className="detail-item">
-                <Calendar size={20} className="detail-icon" />
-                <div>
-                  <label>Joining Date</label>
-                  <p>{formatDate(profile.internshipStartDate)}</p>
-                </div>
-              </div>
+          <div className="info-item">
+            <span className="info-icon">👤</span>
+            <div className="info-text">
+              <span className="info-label">Gender</span>
+              <span className="info-value">{profile.gender}</span>
+            </div>
+          </div>
 
-              <div className="detail-item">
-                <User size={20} className="detail-icon" />
+          {role === "MENTOR" ? (
+            <div className="info-item">
+              <span className="info-icon">💡</span>
+              <div className="info-text">
+                <span className="info-label">Primary Expertise</span>
                 <div>
-                  <label>Full Name</label>
-                  <p>{profile.fullName}</p>
-                </div>
-              </div>
-
-              <div className="detail-item">
-                <Clock size={20} className="detail-icon" />
-                <div>
-                  <label>End Date</label>
-                  <p>{formatDate(profile.internshipEndDate)}</p>
-                </div>
-              </div>
-
-              <div className="detail-item">
-                <GraduationCap size={20} className="detail-icon" />
-                <div>
-                  <label>Degree</label>
-                  <p>{profile.degree}</p>
-                </div>
-              </div>
-
-              <div className="detail-item">
-                <Layers size={20} className="detail-icon" />
-                <div>
-                  <label>Semester</label>
-                  <p>{profile.yearOrSemester}</p>
+                  <span className="expertise-badge">{profile.expertise}</span>
                 </div>
               </div>
             </div>
           ) : (
-            <p className="no-profile">Profile not completed yet</p>
+            <>
+              <div className="info-item">
+                <span className="info-icon">🏫</span>
+                <div className="info-text">
+                  <span className="info-label">College Name</span>
+                  <span className="info-value">{profile.collegeName}</span>
+                </div>
+              </div>
+
+              <div className="info-item">
+                <span className="info-icon">🎓</span>
+                <div className="info-text">
+                  <span className="info-label">Degree & Semester</span>
+                  <span className="info-value">{profile.degree} — {profile.yearOrSemester}</span>
+                </div>
+              </div>
+
+              <div className="info-item">
+                <span className="info-icon">📅</span>
+                <div className="info-text">
+                  <span className="info-label">Internship Tenure</span>
+                  <span className="info-value">
+                    {formatDate(profile.internshipStartDate)} to {formatDate(profile.internshipEndDate)}
+                  </span>
+                </div>
+              </div>
+            </>
           )}
         </div>
       </div>
     </div>
   );
 }
+
+export default ProfilePage;

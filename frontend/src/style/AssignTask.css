@@ -1,0 +1,111 @@
+.assign-task-container {
+  background-color: #f3f4f6; 
+  min-height: 100vh;
+  padding: 20px; /* Padding kam kar di */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Top se start hoga */
+}
+
+.assign-task-card {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 700px; /* Width thodi kam ki */
+  padding: 25px; /* Internal padding kam ki */
+}
+
+.assign-task-header {
+  font-size: 20px; /* Font size chota kiya */
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.assign-task-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr; 
+  gap: 15px; /* Gap kam kiya */
+}
+
+.form-group {
+  margin-bottom: 12px; /* Spacing kam ki */
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group.full-width {
+  grid-column: span 2;
+}
+
+.form-label {
+  font-size: 12px; /* Label chota kiya */
+  font-weight: 600;
+  color: #666;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+}
+
+.required-star {
+  color: #ef4444;
+}
+
+.form-input {
+  padding: 8px 12px; /* Input height kam ki */
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  font-size: 13px;
+  outline: none;
+}
+
+.form-input:focus {
+  border-color: #3b82f6;
+}
+
+.error-border {
+  border-color: #ef4444 !important;
+}
+
+.error-message {
+  color: #ef4444;
+  font-size: 11px;
+  margin-top: 3px;
+}
+
+.file-section {
+  border: 1px dashed #cbd5e1;
+  padding: 8px;
+  border-radius: 6px;
+  background-color: #f9fafb;
+}
+
+.submit-btn-container {
+  display: flex;
+  justify-content: flex-end; /* Right side button like Image 1 */
+  margin-top: 15px;
+}
+
+.assign-btn {
+  background-color: #3b82f6;
+  color: white;
+  padding: 10px 25px;
+  border-radius: 6px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.assign-btn:hover {
+  background-color: #2563eb;
+}
+
+/* Scrollbar styling for textarea */
+textarea.form-input {
+  resize: none;
+  height: 80px; /* Fixed small height */
+}

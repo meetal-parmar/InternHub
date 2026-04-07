@@ -1,37 +1,38 @@
-require('dotenv').config();
-const express = require('express');
-const mongoose = require('mongoose');
-const userRoutes = require('./routes/authRoutes');
-const mentorRoutes = require('./routes/mentorRoutes');
-const internRoutes = require('./routes/internRoutes');
+
+require("dotenv").config();
+const express = require("express");
+const mongoose = require("mongoose");
+const cors = require("cors");
+const cookieParser = require("cookie-parser");
+
+const userRoutes = require("./routes/authRoutes");
+const mentorRoutes = require("./routes/mentorRoutes");
+const mentorTaskRoutes = require("./routes/mentorTaskRoutes");
+const materialRoutes = require("./routes/materialRoutes");
+const internRoutes = require("./routes/internRoutes");
+
 const app = express();
 
-const cors = require('cors');
-
+// MongoDB
 mongoose.connect(process.env.MONGO_URL)
-.then((res)=>{
-    console.log("db connect")
-})
-.catch((err)=>{
-    console.log(err);
-});
+  .then(() => console.log("DB connected"))
+  .catch((err) => console.log(err));
 
-app.use(cors({
-  origin: "http://localhost:5173",
-  credentials: true
-}));
+// Middleware
+app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
-const cookieParser = require("cookie-parser");
 app.use(cookieParser());
+app.use("/uploads", express.static("uploads")); // serve uploaded files
 
-app.use('/auth', userRoutes);
-app.use('/mentor', mentorRoutes);
 app.use('/intern',internRoutes);
 
 const profileRoutes = require("./routes/ProfileRoutes");
+// Routes
+app.use("/auth", userRoutes);
+app.use("/mentor", mentorRoutes);
+app.use("/mentor", mentorTaskRoutes);
 app.use("/profile", profileRoutes);
+app.use("/mentor", materialRoutes);
 
-app.listen(process.env.PORT,()=>{
-    console.log(`app is listening on port ${process.env.PORT}`);
-})
-
+// Start server
+app.listen(process.env.PORT, () => console.log(`Server running on port ${process.env.PORT}`));
