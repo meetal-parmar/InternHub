@@ -1,14 +1,38 @@
-const express = require('express');
-const routes = express.Router();
+const express = require("express");
+const router = express.Router();
 
-const mentorController = require('../controllers/mentorController');
-const {requireAuth,requireRole} = require('../middleware/requireAuth')
-routes.post('/create-intern',
-    requireAuth,
-    requireRole("MENTOR"),
-    mentorController.createIntern
+const mentorController = require("../controllers/mentorController");
+const { requireAuth, requireRole } = require("../middleware/requireAuth");
+
+
+router.post(
+  "/create-intern",
+  requireAuth,
+  requireRole("MENTOR"),
+  mentorController.createIntern
 );
 
-module.exports = routes;
+router.get(
+  "/interns",
+  requireAuth,
+  requireRole("MENTOR"),
+  mentorController.getMyInterns
+);
 
 
+router.get(
+  "/intern/:id",
+  requireAuth,
+  requireRole("MENTOR"),
+  mentorController.getSingleIntern
+);
+
+// ✅ Mark intern inactive
+router.patch(
+  "/interns/:id/inactive",
+  requireAuth,
+  requireRole("MENTOR"),
+  mentorController.deactivateIntern
+);
+
+module.exports = router;

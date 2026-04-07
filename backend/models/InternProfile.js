@@ -75,6 +75,23 @@ const internProfileSchema = new mongoose.Schema({
       },
       message: "End date must be after start date"
     }
+  },
+  // Existing fields ke niche ye add karein:
+  
+  githubUrl: {
+    type: String,
+    match: [
+      /^(https?:\/\/)?(www\.)?github\.com\/[a-zA-Z0-9_-]+\/?$/, 
+      "Please enter a valid GitHub URL"
+    ]
+  },
+
+  linkedinUrl: {
+    type: String,
+    match: [
+      /^(https?:\/\/)?(www\.)?linkedin\.com\/in\/[a-zA-Z0-9_-]+\/?$/, 
+      "Please enter a valid LinkedIn URL"
+    ]
   }
 
 }, { timestamps: true });

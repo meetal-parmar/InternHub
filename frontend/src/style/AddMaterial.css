@@ -1,0 +1,229 @@
+/* Page Container & Flex Layout */
+.add-material-container {
+  padding: 30px 15px;
+  background-color: #f7fafc;
+  min-height: 100vh;
+  font-family: 'Inter', -apple-system, sans-serif;
+}
+
+.add-material-layout {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  max-width: 1000px;
+  margin: 0 auto;
+  align-items: flex-start; /* Important for sidebar height */
+}
+
+/* Main Form Card Styling */
+.add-material-card {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+  flex: 1;
+  max-width: 520px;
+}
+
+.card-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #edf2f7;
+}
+
+.add-material-header {
+  font-size: 18px;
+  font-weight: 800;
+  color: #1a202c;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+}
+
+/* Form Sections */
+.material-section { margin-bottom: 16px; }
+
+.material-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #718096;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.material-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 14px;
+  transition: all 0.2s;
+  background: #fbfcfd;
+  box-sizing: border-box;
+}
+
+.material-input:focus {
+  outline: none;
+  border-color: #3182ce;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(49, 130, 206, 0.1);
+}
+
+.material-textarea { min-height: 80px; resize: vertical; }
+
+/* Dynamic Row Design (Fixes Icons & Appearance) */
+.dynamic-section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.dynamic-section-header .material-label { margin-bottom: 0; }
+
+.add-resource-btn {
+  background: transparent;
+  color: #3182ce;
+  border: none;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.2s;
+}
+
+.add-resource-btn:hover { color: #2c5282; }
+
+.resource-row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+  align-items: center; /* Inputs aur button ko vertically center karne ke liye */
+  background: #f8fafc;
+  padding: 8px 10px;
+  border-radius: 10px;
+  border: 1px solid #edf2f7;
+}
+
+.resource-row.grid-2col {
+  display: grid;
+  grid-template-columns: 1fr 2fr auto;
+}
+
+.resource-row input {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #e2e8f0;
+  font-size: 13px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+/* FIX: Icon is visible now */
+.remove-row-btn {
+  background: #fee2e2; /* Light red background */
+  color: #ef4444;    /* Red icon color */
+  border: none;
+  width: 25px;       /* Fixed width */
+  height: 25px;      /* Fixed height */
+  border-radius: 8px;
+  cursor: pointer;
+  
+  /* Icon ko center mein dikhane ke liye ye 3 lines zaroori hain */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  
+  flex-shrink: 0;    /* Button ko chhota hone se rokta hai */
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.remove-row-btn:hover {
+  background: #ef4444;
+  color: white;      /* Hover par icon white ho jayega */
+}
+
+.remove-row-btn svg {
+  display: block;    /* Icon rendering fix */
+  width: 12px;       /* Icon ka size */
+  height: 12px;
+}
+
+/* Sidebar Styling */
+.intern-sidebar {
+  width: 300px;
+  background: white;
+  padding: 20px;
+  border-radius: 16px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.03);
+  position: sticky;
+  top: 30px;
+  border: 1px solid #edf2f7;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.sidebar-header h3 { font-size: 14px; font-weight: 700; color: #1a202c; margin: 0; }
+
+.sidebar-ctrls { display: flex; gap: 8px; margin-bottom: 12px; }
+.sidebar-ctrls button {
+  flex: 1; font-size: 11px; padding: 6px; border-radius: 6px;
+  border: 1px solid #f6faff; background: #2b81d8; font-weight: 900; cursor: pointer; color: #f7f9fe;
+}
+.sidebar-ctrls button:hover { background: #2a4866; color: #1a202c;}
+
+.sidebar-search-container {
+  display: flex; align-items: center; gap: 8px; background: #f8fafc;
+  padding: 8px 10px; border-radius: 8px; border: 1px solid #edf2f7; margin-bottom: 12px;
+}
+.sidebar-search-container input { border: none; background: transparent; outline: none; font-size: 13px; width: 100%; }
+
+.intern-list-scroll { max-height: 380px; overflow-y: auto; padding-right: 5px; }
+.intern-list-scroll::-webkit-scrollbar { width: 5px; }
+.intern-list-scroll::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+
+/* Checklist Item Styles */
+.intern-checkbox-item {
+  display: flex; align-items: center; gap: 10px; padding: 10px;
+  border-radius: 10px; cursor: pointer; transition: background 0.2s; position: relative; margin-bottom: 2px;
+}
+.intern-checkbox-item:hover { background: #f0f7ff; }
+
+/* Custom Checkbox Look */
+.intern-checkbox-item input[type="checkbox"] { position: absolute; opacity: 0; cursor: pointer; height: 0; width: 0; }
+.checkmark-custom { width: 18px; height: 18px; border: 2px solid #cbd5e0; border-radius: 6px; background: white; transition: 0.2s; flex-shrink: 0;}
+.intern-checkbox-item input[type="checkbox"]:checked ~ .checkmark-custom { background-color: #3182ce; border-color: #3182ce; }
+.checkmark-custom:after { content: ""; display: none; width: 5px; height: 10px; border: solid white; border-width: 0 2px 2px 0; transform: rotate(45deg); margin-left: 5px; margin-top: 1px;}
+.intern-checkbox-item input[type="checkbox"]:checked ~ .checkmark-custom:after { display: block; }
+
+.intern-avatar { color: #a0aec0; display: flex; align-items: center;}
+.intern-name-text { font-size: 13px; color: #4a5568; font-weight: 500;}
+
+/* Header buttons & Badge */
+.toggle-interns-btn {
+  background: #f0f7ff; color: #3182ce; border: 1px solid #bee3f8;
+  padding: 5px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px;
+}
+.toggle-interns-btn:hover { background: #e6f0ff; }
+.badge { background: #3182ce; color: white; padding: 1px 6px; border-radius: 6px; font-size: 10px; }
+
+/* Submit Button */
+.submit-btn {
+  width: 100%; background: #3182ce; color: white; padding: 12px;
+  border-radius: 10px; border: none; font-size: 15px; font-weight: 700;
+  margin-top: 10px; cursor: pointer; transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(49, 130, 206, 0.15);
+}
+.submit-btn:hover { background: #2c5282; transform: translateY(-1px); box-shadow: 0 6px 15px rgba(49, 130, 206, 0.2); }

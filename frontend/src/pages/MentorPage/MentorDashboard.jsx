@@ -29,7 +29,25 @@ export default function MentorDashboard(){
           Create Intern
         </button>
       )}
-
+      <button onClick={() => navigate("/mentor/interns")}>
+  My Interns
+</button>
+ <button onClick={() => navigate("/mentor/assign-task")}>
+  + Assign Task
+</button>
+      
+<button onClick={() => navigate("/mentor/tasks")}>
+  All tasks
+</button>
+  <button onClick={() => navigate("/mentor/reviews")}>
+  Review Tasks
+</button>
+<button onClick={() => navigate("/mentor/materials/add")}>
+  Add Material
+</button>
+<button onClick={() => navigate("/mentor/materials")}>
+  📚 Materials
+</button>
       <button onClick={logout}>Logout</button>
       <div>
         <button onClick={()=>navigate("/profile")}>Profile</button>

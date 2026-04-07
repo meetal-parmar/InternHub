@@ -4,6 +4,7 @@ import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import {Toaster} from "react-hot-toast";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -15,10 +16,30 @@ import VerifyOtp from "./pages/VerifyOtp";
 import ResetPassword from "./pages/ResetPassword";
 import MentorDashboard from "./pages/MentorPage/MentorDashboard";
 import ProfilePage from "./pages/profile/ProfilePage";
+import MyInternsPage from "./pages/MentorPage/MyInternsPage";
+import InternDetails from "./pages/MentorPage/InternDetails";
+import AssignTask from "./pages/MentorPage/AssignTask"; 
+import MentorTasks from "./pages/MentorPage/MentorTasks";
+import ReviewTasks from "./pages/MentorPage/ReviewTasks";
+import AddMaterial from "./pages/MentorPage/AddMaterial";
+import MentorMaterials from "./pages/MentorPage/MentorMaterials";
+
+
 
 function App() {
   return (
     <BrowserRouter>
+    <Toaster 
+        position="top-right" 
+        reverseOrder={false} 
+        toastOptions={{
+          duration: 5000, // 5 seconds tak dikhega
+          style: {
+            fontFamily: 'Poppins, sans-serif',
+            fontSize: '14px',
+          },
+        }}
+      />
       <Routes>
 
         <Route path="/" element={<Home/>}/>
@@ -31,6 +52,13 @@ function App() {
         <Route path="/verify" element={<VerifyOtp/>}/>
         <Route path="/reset" element={<ResetPassword/>}/>
         <Route path="/profile" element={<ProfilePage />} />
+        <Route path = "/mentor/interns" element = { <MyInternsPage /> } />   
+       <Route path="/mentor/intern/:id" element={<InternDetails />} /> 
+       <Route path="/mentor/assign-task" element={<AssignTask />} />
+       <Route path="/mentor/tasks" element={<MentorTasks />} />
+       <Route path="/mentor/reviews" element={<ReviewTasks />} />
+       <Route path="/mentor/materials/add" element={<AddMaterial />} />
+       <Route path="/mentor/materials" element={<MentorMaterials />} />
       </Routes>
     </BrowserRouter>
   );
