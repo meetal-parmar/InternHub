@@ -11,6 +11,7 @@ const mentorTaskRoutes = require("./routes/mentorTaskRoutes");
 const materialRoutes = require("./routes/materialRoutes");
 const internRoutes = require("./routes/internRoutes");
 
+
 const app = express();
 
 // MongoDB
@@ -33,6 +34,9 @@ app.use("/mentor", mentorRoutes);
 app.use("/mentor", mentorTaskRoutes);
 app.use("/profile", profileRoutes);
 app.use("/mentor", materialRoutes);
+app.use("/api/mentor-dashboard", require("./routes/mentorDashboardRoutes"));
+//app.use("/leaves", require("./routes/leaveRoutes"));
+app.use("/leaves", require("./routes/leaveRoutes"));
 
 // Start server
 app.listen(process.env.PORT, () => console.log(`Server running on port ${process.env.PORT}`));

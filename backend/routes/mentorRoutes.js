@@ -5,6 +5,7 @@ const mentorController = require("../controllers/mentorController");
 const { requireAuth, requireRole } = require("../middleware/requireAuth");
 
 
+
 router.post(
   "/create-intern",
   requireAuth,
@@ -33,6 +34,13 @@ router.patch(
   requireAuth,
   requireRole("MENTOR"),
   mentorController.deactivateIntern
+);
+
+router.get(
+  "/intern-timeline/:internId",
+  requireAuth,
+  requireRole("MENTOR"),
+  mentorController.getInternTimelogTimeline
 );
 
 module.exports = router;

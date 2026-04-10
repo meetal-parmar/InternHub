@@ -32,7 +32,16 @@ const timelogSchema = new mongoose.Schema({
         type: String,
         required: true,
         trim: true
-    }
+    },
+    startDecimal: {
+   type: Number,
+   
+},
+
+totalHours: {
+   type: Number,
+   
+}
 }, { timestamps: true });
 
 module.exports = mongoose.model("Timelog", timelogSchema);

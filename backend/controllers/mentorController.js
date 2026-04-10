@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt');
 const validator = require('validator');
 const sendEmail = require('../utils/sendEmail');
 const InternProfile = require("../models/InternProfile");
+const Timelog = require("../models/Timelog");
+
 
 
 exports.createIntern = async (req, res) => {
@@ -147,3 +149,55 @@ exports.deactivateIntern = async (req, res) => {
   }
 };
 
+exports.getInternTimelogTimeline = async (req, res) => {
+  try {
+    const { internId } = req.params;
+    const { date } = req.query;
+
+    // 1) Check intern belongs to mentor
+    const intern = await User.findOne({
+      _id: internId,
+      role: "INTERN",
+      mentor: req.user._id
+    });
+
+    if (!intern) {
+      return res.status(403).json({
+        success: false,
+        message: "Unauthorized access"
+      });
+    }
+
+    // 2) Date range
+    const startDay = new Date(date);
+    startDay.setHours(0, 0, 0, 0);
+
+    const endDay = new Date(date);
+    endDay.setHours(23, 59, 59, 999);
+
+    // 3) Get logs
+    const logs = await Timelog.find({
+      internId,
+      workDate: { $gte: startDay, $lte: endDay }
+    }).sort({ startDecimal: 1 });
+
+    const totalHours = logs.reduce(
+      (sum, log) => sum + log.totalHours,
+      0
+    );
+
+    res.status(200).json({
+      success: true,
+      internName: intern.name,
+      totalHours: totalHours.toFixed(2),
+      data: logs
+    });
+
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Server Error",
+      error: error.message
+    });
+  }
+};
