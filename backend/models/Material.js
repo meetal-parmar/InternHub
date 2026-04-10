@@ -43,6 +43,13 @@ const materialSchema = new mongoose.Schema(
         url: String,
       },
     ],
+    readBy: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+        default: [],
+      },
+    ],
   },
   { timestamps: true }
 );

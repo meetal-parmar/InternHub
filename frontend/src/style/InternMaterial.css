@@ -1,0 +1,400 @@
+/* --- Global Container --- */
+.intern-materials-page {
+  padding: 40px;
+  background: #f4f7fe;
+  min-height: 100vh;
+  font-family: 'Inter', sans-serif;
+}
+
+/* --- Header & Journey Section --- */
+.journey-header {
+  background: white;
+  padding: 30px;
+  border-radius: 24px;
+  margin-bottom: 40px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+}
+
+.journey-header h1 {
+  font-size: 28px;
+  color: #1b254b;
+  margin-bottom: 8px;
+  font-weight: 800;
+}
+
+.progress-stats {
+  color: #707eae;
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 12px;
+  background: #e9edf7;
+  border-radius: 20px;
+  margin-top: 15px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4318ff, #707eae);
+  transition: width 0.6s ease-in-out;
+}
+
+/* --- Materials Grid --- */
+.materials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 25px;
+}
+
+/* --- Professional Card Styling --- */
+.intern-material-card {
+  background: white;
+  padding: 24px;
+  border-radius: 20px;
+  position: relative;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+}
+
+.intern-material-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+  border-color: #93c5fd;
+}
+
+/* Badges */
+.status-badge {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 10px;
+  font-weight: 800;
+  padding: 6px 14px;
+  border-radius: 50px;
+  letter-spacing: 0.5px;
+}
+
+.badge-blue { background: #e0e7ff; color: #4318ff; }
+.badge-green { background: #dcfce7; color: #059669; }
+
+.card-icon {
+  font-size: 24px;
+  color: #4318ff;
+  margin-bottom: 16px;
+}
+
+.intern-material-card h3 {
+  color: #1b254b;
+  font-size: 19px;
+  margin-bottom: 10px;
+  font-weight: 700;
+}
+
+.card-desc {
+  color: #707eae;
+  font-size: 14px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.card-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  color: #475569;
+  font-size: 13px;
+}
+
+.card-meta span {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.card-footer {
+  margin-top: auto;
+  padding-top: 15px;
+  border-top: 1px solid #f4f7fe;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.date {
+  font-size: 12px;
+  color: #a3aed0;
+}
+
+.view-detail-btn {
+  background: #f4f7fe;
+  color: #4318ff;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.view-detail-btn:hover {
+  background: #4318ff;
+  color: white;
+}
+
+/* --- Modern Modal --- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(5px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #ffffff !important; /* Force white background */
+  width: 700px;
+  max-width: 90%;
+  padding: 40px;
+  border-radius: 30px !important;
+  position: relative;
+  animation: modalScale 0.3s ease-out;
+}
+/* Modal Header Title Fix */
+.modal-content h2 {
+  color: #1b254b;
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 5px;
+  display: block; /* Ensure visibility */
+}
+
+/* File & Link Sections */
+.modal-sections h4 {
+  color: #1b254b;
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Designing Resource Items (As per Screenshot) */
+.resource-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.resource-item {
+  display: flex;
+  align-items: center;
+  background: #f4f7fe; /* Light bluish background from image */
+  padding: 12px 20px;
+  border-radius: 16px;
+  text-decoration: none;
+  color: #1b254b;
+  font-weight: 600;
+  font-size: 14px;
+  border: 1px solid #e9edf7;
+  transition: all 0.2s ease;
+}
+
+.resource-item:hover {
+  background: #e2e8f0;
+  transform: translateX(5px);
+}
+
+/* Icon Styling */
+.resource-icon {
+  margin-right: 12px;
+  color: #707eae;
+  font-size: 18px;
+}
+
+/* Link-specific Grid (if you want 2 columns like in some screenshots) */
+.links-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+@keyframes modalScale {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.modal-close {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  background: #f4f7fe;
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s;
+}
+
+.modal-close:hover {
+  background: #fee2e2;
+  color: #ef4444;
+}
+
+.modal-subtitle {
+  color: #707eae;
+  margin-top: 8px;
+  font-size: 15px;
+}
+
+.modal-sections {
+  margin: 25px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.modal-sections h4 {
+  color: #1b254b;
+  margin-bottom: 12px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.resource-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.resource-item {
+  background: #f8fafc;
+  padding: 14px 18px;
+  border-radius: 14px;
+  text-decoration: none;
+  color: #1b254b;
+  font-weight: 600;
+  border: 1px solid #e2e8f0;
+  transition: all 0.2s;
+}
+
+.resource-item:hover {
+  background: #f1f5f9;
+  border-color: #4318ff;
+  padding-left: 22px;
+}
+
+/* --- Mark as Read Button (Blue Professional) --- */
+.mark-read-btn {
+  background: #059669;
+  color: white;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+}
+
+.mark-read-btn:hover {
+  background: #059669;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.3);
+}
+
+.completed-status {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #059669;
+  font-weight: 700;
+}
+
+.modal-footer {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #f1f5f9;
+  display: flex;
+  justify-content: space-between !important;
+  align-items: center;
+}
+
+.footer-date {
+  color: #94a3b8;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+/* Title Fix */
+.modal-main-title {
+    color: #1b254b !important;
+    font-size: 24px !important;
+    font-weight: 800;
+    margin: 0;
+    display: block;
+}
+
+/* Resource Item Style matching image */
+.resource-item {
+    display: flex;
+    align-items: center;
+    background: #f4f7fe;
+    padding: 14px 20px;
+    border-radius: 16px;
+    margin-bottom: 8px;
+    transition: 0.2s;
+    border: 1px solid transparent;
+    text-decoration: none;
+    color: #1b254b;
+}
+
+.resource-item:hover {
+    border-color: #4318ff;
+    background: #eef2ff;
+}
+
+.res-icon {
+    margin-right: 12px;
+    color: #a3aed0;
+    font-size: 16px;
+}
+
+.res-name {
+    font-weight: 600;
+    font-size: 14px;
+}
+
+/* Links Grid Layout */
+.links-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+/* Completed Status styling */
+.check-success {
+    color: #059669;
+    font-size: 18px;
+}

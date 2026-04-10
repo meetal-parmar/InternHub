@@ -27,6 +27,12 @@ export default function InternDashboard(){
       <div>
         <button onClick={()=>navigate("/monthlySummary")}>monthlySummary</button>
       </div>
+      <div>
+        <button onClick={()=>navigate("/materials")}>materials</button>
+      </div>
+      <div>
+        <button onClick={()=>navigate("/leaves")}>leaves</button>
+      </div>
     </div>
 
     

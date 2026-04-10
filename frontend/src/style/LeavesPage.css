@@ -1,0 +1,832 @@
+/* --- Global Dashboard Styling --- */
+.leave-dashboard-wrapper {
+    background-color: #f8fafc;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    color: #2d3748;
+
+    display: flex;              /* Use flexbox */
+    justify-content: center;    /* Center horizontally */
+    padding: 2rem 1rem;         /* Top-bottom and left-right padding */
+}
+.leave-dashboard-wrapper .container-fluid {
+    max-width: 1300px; /* Limit width */
+    width: 100%;
+}
+
+
+/* Header Container to push button to right */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.dashboard-title {
+    font-weight: 800;
+    font-size: 1.8rem;
+    color: #1a202c;
+    margin: 0;
+}
+
+.section-label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+}
+
+/* --- ANIMATION FOR RINGS --- */
+@property --percent {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 0%;
+}
+
+@keyframes fillProgress {
+    from { --percent: 0%; }
+}
+
+/* --- LEAVE BALANCE & STATUS ROWS --- */
+.balance-row {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 1.5rem; /* Cards ke beech gap */
+    margin-bottom: 3rem;
+}
+
+@media (max-width: 992px) {
+    .balance-row {
+        flex-wrap: wrap; /* Mobile par stack ho jayenge */
+    }
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}
+
+/* --- BALANCE CARDS --- */
+.balance-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 25px 30px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    height: 100px;
+    width: 300px;
+    flex: 1; /* Equal width for cards */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    margin-bottom: -30px;
+}
+
+.balance-card:hover {
+    transform: translateY(-5px);
+}
+
+.balance-card.total { background: linear-gradient(180deg, #ffffff 0%, #eff6ff 100%); border-bottom: 4px solid #3b82f6; }
+.balance-card.used { background: linear-gradient(180deg, #ffffff 0%, #fef2f2 100%); border-bottom: 4px solid #ef4444; }
+.balance-card.remaining { background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%); border-bottom: 4px solid #10b981; }
+
+.card-label { color: #64748b; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 8px; }
+.card-value .number { font-size: 2.8rem; font-weight: 900; line-height: 1; }
+.number.blue { color: #2563eb; }
+.number.red { color: #dc2626; }
+.number.green { color: #16a34a; }
+.unit { font-size: 1rem; color: #94a3b8; font-weight: 600; margin-left: 5px; }
+
+/* --- CIRCULAR PROGRESS --- */
+.progress-box { width: 65px; height: 65px; display: flex; align-items: center; justify-content: center; }
+
+.circular-progress {
+    width: 60px; 
+    height: 60px; 
+    border-radius: 50%;
+    background: radial-gradient(closest-side, white 82%, transparent 0),
+                conic-gradient(var(--ring-color) var(--percent), #f1f5f9 0);
+    transition: all 0.5s ease-in-out;
+    animation: fillProgress 1.5s ease-out forwards;
+}
+
+.blue-ring { --ring-color: #3b82f6; }
+.red-ring { --ring-color: #ef4444; }
+.green-ring { --ring-color: #10b981; }
+
+/* --- SUMMARY PILLS --- */
+/* .summary-pill-new {
+    background: white;
+    padding: 15px 20px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 3px solid #f1f5f9;
+    flex: 1;
+    width: 400px;
+} */
+ .summary-pill-new {
+    background: white;
+    padding: 15px 20px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* Border ko patla (1px) aur soft rakha hai */
+    border: 1px solid #e2e8f0; 
+    flex: 1;
+    width: 400px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: -40px;
+    margin-top: -10px;
+}
+
+/* --- Hover Effects --- */
+.summary-pill-new:hover {
+    transform: translateY(-4px); /* Halka sa lift */
+    background: #ffffff;
+    box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover par border color change (Thin line hi rahegi) */
+.summary-pill-new.pending:hover {
+    border-color: #f59e0b;
+    background: linear-gradient(to right, #ffffff, #fffdf5);
+}
+
+.summary-pill-new.approved:hover {
+    border-color: #10b981;
+    background: linear-gradient(to right, #ffffff, #f0fdf4);
+}
+
+.summary-pill-new.rejected:hover {
+    border-color: #ef4444;
+    background: linear-gradient(to right, #ffffff, #fef2f2);
+}
+
+/* Icon Animation: Hover par icon thoda scale hoga */
+.summary-pill-new:hover .pill-icon-box {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+/* Count (Number) Animation */
+.summary-pill-new:hover .count-new {
+    color: #000;
+    transition: color 0.3s ease;
+}
+
+.pill-icon-box { width: 35px; height: 35px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+.pending .pill-icon-box { background: #fffbeb; color: #f59e0b; }
+.approved .pill-icon-box { background: #f0fdf4; color: #10b981; }
+.rejected .pill-icon-box { background: #fef2f2; color: #ef4444; }
+.count-new { font-size: 1.3rem; font-weight: 800; color: #1e293b; display: block; line-height: 1; }
+.txt-new { font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; }
+
+/* --- TABLE DESIGN --- */
+.table-container-new { border-radius: 20px; overflow: hidden; border: 1px solid #f1f5f9; background: white; }
+.table-header-new { background: #f8fafc; padding: 15px 20px; font-weight: 800; font-size: 0.75rem; color: #64748b; border-bottom: 2px solid #f1f5f9; }
+.custom-table-new thead th { font-size: 0.7rem; color: #94a3b8; font-weight: 800; padding: 15px; border: none; }
+.custom-table-new td { padding: 15px; vertical-align: middle; color: #475569; font-size: 0.9rem; }
+.days-badge { background: #f1f5f9; padding: 4px 10px; border-radius: 8px; font-weight: 700; color: #1e293b; }
+
+/* --- STATUS BADGES --- */
+.status-badge-new { padding: 5px 12px; border-radius: 8px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
+.status-badge-new.approved { background: #dcfce7; color: #166534; }
+.status-badge-new.pending { background: #fef3c7; color: #92400e; }
+.status-badge-new.rejected { background: #fee2e2; color: #991b1b; }
+
+.btn-cancel-ghost { background: transparent; border: 1px solid #e2e8f0; color: #94a3b8; padding: 5px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; transition: 0.2s; }
+.btn-cancel-ghost:hover { background: #ef4444; color: white; border-color: #ef4444; }
+
+/* --- APPLY BUTTON (TOP RIGHT) --- */
+/* Container ko flex banayein */
+.btn-apply-primary-new {
+    background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%);
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 12px;
+    font-weight: 700; 
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    transition: 0.3s; 
+    display: flex; 
+    align-items: center;
+
+    /* Ye line add karein, ye pixel (px) se kahin behtar hai */
+    margin-left: auto; 
+}
+
+/* Header container ko full width ensure karein */
+.d-flex.justify-content-between {
+    width: 100%;
+}
+.btn-apply-primary-new {
+    background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%);
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 12px;
+    font-weight: 700; 
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    transition: 0.3s; 
+    display: flex; 
+    align-items: center;
+    /* margin-left hata dein yahan se */
+}
+.btn-apply-primary-new:hover { transform: scale(1.05); }
+
+/* --- Professional White Modal Styling --- */
+/* --- Modal Over-the-Page Styles --- */
+
+/* Background blur jaisa screenshot mein hai */
+/* --- Global Dashboard Styling --- */
+.leave-dashboard-wrapper {
+    background-color: #f8fafc;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    color: #2d3748;
+    padding: 2rem 1rem;
+    position: relative; /* Base for modal overlay */
+}
+
+/* Modal Overlay ka Blur Effect */
+.custom-modal-backdrop {
+    background-color: rgba(15, 23, 42, 0.5) !important; /* Dark semi-transparent layer */
+    backdrop-filter: blur(10px) !important; /* Yeh dashboard ko blur karega */
+    z-index: 1040 !important;
+}
+
+/* Modal Container (White Box) */
+.custom-white-modal {
+    border-radius: 24px !important;
+    border: none !important;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2) !important;
+    z-index: 1050 !important;
+}
+
+.modal-content-wrapper {
+    background: white;
+    padding: 30px;
+    border-radius: 24px;
+}
+
+/* Header Section */
+.modal-header-custom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.modal-icon-header {
+    background: #eff6ff;
+    padding: 10px;
+    border-radius: 12px;
+    color: #3b82f6;
+}
+
+/* Input Styles */
+.custom-label {
+    font-weight: 700;
+    color: #475569;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    display: block;
+}
+
+.custom-input-field {
+    background-color: #f8fafc !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 12px !important;
+    padding: 12px 16px !important;
+}
+
+/* Days Highlight Box (Screenshot style) */
+.days-display-box {
+    background: #3b82f6;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 1.2rem;
+    margin-top: 5px;
+}
+
+/* Footer Buttons */
+.btn-submit-custom {
+    background: #2563eb;
+    color: white;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    border: none;
+    transition: 0.3s;
+}
+
+.btn-submit-custom:hover {
+    background: #1d4ed8;
+    transform: translateY(-2px);
+}
+
+.btn-discard-custom {
+    background: #f1f5f9;
+    color: #64748b;
+    padding: 12px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    border: none;
+}
+
+/* --- Global Dashboard Styling --- */
+.leave-dashboard-wrapper {
+    background-color: #f8fafc;
+    min-height: 100vh;
+    font-family: 'Inter', sans-serif;
+    color: #2d3748;
+
+    display: flex;              /* Use flexbox */
+    justify-content: center;    /* Center horizontally */
+    padding: 2rem 1rem;         /* Top-bottom and left-right padding */
+}
+.leave-dashboard-wrapper .container-fluid {
+    max-width: 1300px; /* Limit width */
+    width: 100%;
+}
+
+
+/* Header Container to push button to right */
+.dashboard-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    width: 100%;
+}
+
+.dashboard-title {
+    font-weight: 800;
+    font-size: 1.8rem;
+    color: #1a202c;
+    margin: 0;
+}
+
+.section-label {
+    font-size: 0.75rem;
+    font-weight: 800;
+    color: #94a3b8;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 1.5rem;
+}
+
+/* --- ANIMATION FOR RINGS --- */
+@property --percent {
+    syntax: '<percentage>';
+    inherits: false;
+    initial-value: 0%;
+}
+
+@keyframes fillProgress {
+    from { --percent: 0%; }
+}
+
+/* --- LEAVE BALANCE & STATUS ROWS --- */
+.balance-row {
+display: flex !important;
+    flex-direction: row !important;
+    flex-wrap: nowrap !important; /* Force single line */
+    gap: 1.5rem; 
+    margin-bottom: 3rem;
+    width: 100%;    
+}
+
+@media (max-width: 992px) {
+    .balance-row {
+        flex-wrap: wrap; /* Mobile par stack ho jayenge */
+    }
+    .dashboard-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+}
+
+/* --- BALANCE CARDS --- */
+.balance-card {
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 25px 30px;
+    border: 1px solid rgba(226, 232, 240, 0.8);
+    height: 110px;
+    width: 300px;
+    flex: 1; /* Equal width for cards */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.4s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    margin-bottom: 0;
+    min-height: 100px;
+    min-width: 0;
+    margin-bottom: 0 !important; 
+    /* width: auto !important; */
+}
+
+.balance-card:hover {
+    transform: translateY(-5px);
+}
+
+.balance-card.total { background: linear-gradient(180deg, #ffffff 0%, #eff6ff 100%); border-bottom: 4px solid #3b82f6; }
+.balance-card.used { background: linear-gradient(180deg, #ffffff 0%, #fef2f2 100%); border-bottom: 4px solid #ef4444; }
+.balance-card.remaining { background: linear-gradient(180deg, #ffffff 0%, #f0fdf4 100%); border-bottom: 4px solid #10b981; }
+
+.card-label { color: #64748b; font-size: 0.8rem; font-weight: 700; text-transform: uppercase; display: block; margin-bottom: 8px; }
+.card-value .number { font-size: 2.8rem; font-weight: 900; line-height: 1; }
+.number.blue { color: #2563eb; }
+.number.red { color: #dc2626; }
+.number.green { color: #16a34a; }
+.unit { font-size: 1rem; color: #94a3b8; font-weight: 600; margin-left: 5px; }
+
+/* --- CIRCULAR PROGRESS --- */
+.progress-box { width: 65px; height: 65px; display: flex; align-items: center; justify-content: center; }
+
+.circular-progress {
+    width: 60px; 
+    height: 60px; 
+    border-radius: 50%;
+    background: radial-gradient(closest-side, white 82%, transparent 0),
+                conic-gradient(var(--ring-color) var(--percent), #f1f5f9 0);
+    transition: all 0.5s ease-in-out;
+    animation: fillProgress 1.5s ease-out forwards;
+}
+
+.blue-ring { --ring-color: #3b82f6; }
+.red-ring { --ring-color: #ef4444; }
+.green-ring { --ring-color: #10b981; }
+
+/* --- SUMMARY PILLS --- */
+/* .summary-pill-new {
+    background: white;
+    padding: 15px 20px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    border: 3px solid #f1f5f9;
+    flex: 1;
+    width: 400px;
+} */
+ .summary-pill-new {
+    background: white;
+    padding: 15px 20px;
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    /* Border ko patla (1px) aur soft rakha hai */
+    border: 1px solid #e2e8f0; 
+    flex: 1;
+    width: 350px;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+margin-bottom: 0;
+    width: 100%;
+    min-height: 100px;
+}
+
+/* --- Hover Effects --- */
+.summary-pill-new:hover {
+    transform: translateY(-4px); /* Halka sa lift */
+    background: #ffffff;
+    box-shadow: 0 10px 20px -10px rgba(0, 0, 0, 0.1);
+}
+
+/* Hover par border color change (Thin line hi rahegi) */
+.summary-pill-new.pending:hover {
+    border-color: #f59e0b;
+    background: linear-gradient(to right, #ffffff, #fffdf5);
+}
+
+.summary-pill-new.approved:hover {
+    border-color: #10b981;
+    background: linear-gradient(to right, #ffffff, #f0fdf4);
+}
+
+.summary-pill-new.rejected:hover {
+    border-color: #ef4444;
+    background: linear-gradient(to right, #ffffff, #fef2f2);
+}
+
+/* Icon Animation: Hover par icon thoda scale hoga */
+.summary-pill-new:hover .pill-icon-box {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+/* Count (Number) Animation */
+.summary-pill-new:hover .count-new {
+    color: #000;
+    transition: color 0.3s ease;
+}
+
+.pill-icon-box { width: 35px; height: 35px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+.pending .pill-icon-box { background: #fffbeb; color: #f59e0b; }
+.approved .pill-icon-box { background: #f0fdf4; color: #10b981; }
+.rejected .pill-icon-box { background: #fef2f2; color: #ef4444; }
+.count-new { font-size: 1.3rem; font-weight: 800; color: #1e293b; display: block; line-height: 1; }
+.txt-new { font-size: 0.75rem; color: #94a3b8; font-weight: 700; text-transform: uppercase; }
+
+/* --- TABLE DESIGN --- */
+.table-container-new {
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #f1f5f9;
+  background: white;
+
+  width: 90%;         /* screen ke hisaab se adjust */
+  max-width: 775px;  /* max limit */
+  /* margin: 0 auto;     */
+}.table-header-new { background: #f8fafc; padding: 15px 20px; font-weight: 800; font-size: 0.75rem; color: #64748b; border-bottom: 2px solid #f1f5f9; }
+.custom-table-new thead th { font-size: 0.7rem; color: #94a3b8; font-weight: 800; padding: 18px; border: none; }
+.custom-table-new td { padding: 18px; vertical-align: middle; color: #475569; font-size: 0.9rem; }
+.days-badge { background: #f1f5f9; padding: 4px 10px; border-radius: 8px; font-weight: 700; color: #1e293b; }
+
+/* --- STATUS BADGES --- */
+.status-badge-new { padding: 5px 12px; border-radius: 8px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase;}
+.status-badge-new.approved { background: #dcfce7; color: #166534; }
+.status-badge-new.pending { background: #fef3c7; color: #92400e; }
+.status-badge-new.rejected { background: #fee2e2; color: #991b1b; }
+
+.btn-cancel-ghost { background: transparent; border: 1px solid #e2e8f0; color: #94a3b8; padding: 5px 12px; border-radius: 8px; font-size: 0.8rem; font-weight: 600; transition: 0.2s; }
+.btn-cancel-ghost:hover { background: #ef4444; color: white; border-color: #ef4444; }
+
+/* --- APPLY BUTTON (TOP RIGHT) --- */
+/* Container ko flex banayein */
+.btn-apply-primary-new {
+    background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%);
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 12px;
+    font-weight: 700; 
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    transition: 0.3s; 
+    display: flex; 
+    align-items: center;
+
+    /* Ye line add karein, ye pixel (px) se kahin behtar hai */
+    margin-left: auto; 
+}
+
+/* Header container ko full width ensure karein */
+.d-flex.justify-content-between {
+    width: 100%;
+}
+.btn-apply-primary-new {
+    background: linear-gradient(135deg, #60a5fa 0%, #2563eb 100%);
+    color: white; 
+    border: none; 
+    padding: 10px 20px; 
+    border-radius: 12px;
+    font-weight: 700; 
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    transition: 0.3s; 
+    display: flex; 
+    align-items: center;
+    /* margin-left hata dein yahan se */
+}
+.btn-apply-primary-new:hover { transform: scale(1.05); }
+
+/* --- Professional White Modal Styling --- */
+/* --- Modal Over-the-Page Styles --- */
+
+/* Background blur jaisa screenshot mein hai */
+/* --- Global Dashboard Styling --- */
+/* Modal Overlay: Pura background dark aur blur karega */
+/* Glass Modal Core */
+.glass-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(8px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}
+
+.glass-modal-card {
+    background: rgba(255, 255, 255, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 24px;
+    padding: 32px;
+    width: 100%;
+    max-width: 600px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Header */
+.modal-header-custom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.modal-title-new {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #1e293b;
+    margin: 0;
+}
+
+/* Labels & Inputs */
+.custom-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #64748b;
+    margin-bottom: 8px;
+    text-transform: capitalize; /* First letter capital */
+}
+
+.modern-input {
+    width: 100%;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    color: #1e293b;
+    transition: all 0.2s ease;
+}
+
+.modern-input:focus {
+    outline: none;
+    border-color: #3b82f6;
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+}
+
+/* Date Range Styling */
+.form-row-custom {
+    display: grid;
+    grid-template-columns: 1fr 120px;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.datepicker-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #f8fafc;
+    padding: 6px;
+    border-radius: 14px;
+    border: 1px solid #e2e8f0;
+}
+
+.date-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex: 1;
+}
+
+.date-icon {
+    position: absolute;
+    left: 12px;
+    color: #94a3b8;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.date-input-wrapper .modern-input {
+    padding-left: 36px;
+    background: transparent;
+    border: none;
+}
+
+.date-separator {
+    color: #94a3b8;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+/* Days Badge */
+.days-badge-modern {
+    height: 48px;
+    background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+    border: 1px solid #bfdbfe;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.days-number {
+    font-weight: 800;
+    color: #2563eb;
+    line-height: 1;
+}
+
+.days-text {
+    font-size: 0.7rem;
+    color: #60a5fa;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+/* Footer & Buttons */
+.modal-footer-custom {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 32px;
+}
+.modal-close-icon {
+    /* Position ko modal container ke relative rakhen */
+    position: absolute;
+    top: 15px;
+    right: 15px;
+
+    /* Background aur Border ko puri tarah khatam karein */
+    background: none !important;
+    background-color: transparent !important;
+    border: none !important;
+    padding: 5px !important;
+    margin: 0 !important;
+
+    /* Cursor aur Visibility */
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    z-index: 10 !important; /* Taaki ye hamesha sabse upar rahe */
+    
+    /* Icon ka color aur size */
+    color: #4f5f76 !important; /* Dark grey/blackish color */
+    outline: none !important;
+    
+    /* Smooth transition sirf color aur scale ke liye */
+    transition: color 0.2s ease, transform 0.2s ease;
+    line-height: 0;
+}
+
+/* Hover karne par button gayab nahi hoga, sirf color change hoga */
+.modal-close-icon:hover {
+    transform: scale(1.1); /* Halka sa bada hoga */
+    background: none !important;
+}
+
+/* Click karne par width nahi badhegi */
+.modal-close-icon:active {
+    transform: scale(0.9);
+    background: none !important;
+}
+.btn-modern-apply {
+    background: #2563eb;
+    border: none;
+    color: white;
+    padding: 10px 28px;
+    border-radius: 50px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+    transition: all 0.2s;
+}
+
+.btn-modern-apply:hover {
+    background: #1d4ed8;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 15px rgba(37, 99, 235, 0.3);
+}
+
+.select-custom {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2364748b'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m19 9-7 7-7-7'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+}

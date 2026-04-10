@@ -10,6 +10,9 @@ const mentorRoutes = require("./routes/mentorRoutes");
 const mentorTaskRoutes = require("./routes/mentorTaskRoutes");
 const materialRoutes = require("./routes/materialRoutes");
 const internRoutes = require("./routes/internRoutes");
+const internMaterialsRoutes = require('./routes/internMeterialRoutes');
+const internTaskRoutes = require("./routes/internTaskRoutes");
+const mentorMonthlyRoutes = require("./routes/mentorMonthlyRoutes");
 
 const app = express();
 
@@ -33,6 +36,13 @@ app.use("/mentor", mentorRoutes);
 app.use("/mentor", mentorTaskRoutes);
 app.use("/profile", profileRoutes);
 app.use("/mentor", materialRoutes);
+app.use("/materials",internMaterialsRoutes);
+app.use("/leaves", require("./routes/leaveRoutes"));
+app.use("/notifications", require("./routes/notificationRoutes"));
+app.use('/uploads', express.static('uploads'));
+app.use("/", internTaskRoutes);
+app.use("/",mentorMonthlyRoutes);
+
 
 // Start server
 app.listen(process.env.PORT, () => console.log(`Server running on port ${process.env.PORT}`));

@@ -278,7 +278,7 @@ border-radius: 14px;
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 16px;
+    padding: 15px;
 
     background: rgba(255, 255, 255, 0.7); 
     backdrop-filter: blur(8px);
@@ -298,9 +298,32 @@ border-radius: 14px;
 }
 
 .kpi-icon {
-    font-size: 1.5rem;
+    font-size: 1rem;
     background: rgba(37, 99, 235, 0.1);
     padding: 10px;
     border-radius: 10px;
 }
 
+*{
+    margin: 0;
+    padding: 0;
+}
+/* //intern */
+.intern-dropdown {
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1px solid #cbd5e1;
+    background: white;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.intern-dropdown:hover {
+    border-color: #2563eb;
+}
+
+.intern-dropdown:focus {
+    outline: none;
+    border-color: #2563eb;
+}
