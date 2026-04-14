@@ -1,0 +1,95 @@
+.minimal-header {
+  height: 60px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  /* Aapki patli blue line niche hai */
+  border-bottom: 2px solid #2563eb; 
+}
+
+.logo-text {
+  font-size: 22px;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.5px;
+}
+
+.blue-text {
+  color: #2563eb;
+}
+
+.header-right {
+  position: relative;
+}
+
+.profile-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 5px;
+}
+
+.avatar-circle {
+  width: 32px;
+  margin-top: 15px;
+  height: 32px;
+  background: #112d49;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f3f7fb;
+  border: 1px solid #e2e8f0;
+}
+
+.user-name-text {
+  font-size: 14px;
+  font-weight: 500;
+  color: #334155;
+}
+
+/* Dropdown styling */
+.simple-dropdown {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  width: 150px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  border: 1px solid #e2e8f0;
+  padding: 8px 0;
+  animation: fadeIn 0.2s ease;
+}
+
+.dropdown-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 15px;
+  font-size: 13px;
+  color: #475569;
+  transition: 0.2s;
+}
+
+.dropdown-link:hover {
+  background: #f8fafc;
+  color: #2563eb;
+}
+
+.logout {
+  color: #ef4444;
+}
+
+.rotate { transform: rotate(180deg); transition: 0.3s; }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

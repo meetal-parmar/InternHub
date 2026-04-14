@@ -1,0 +1,20 @@
+.main-footer {
+  width: 100%;
+  padding: 20px 0;
+  background: transparent; /* Background layout se match karega */
+  text-align: center;
+  border-top: 1px solid #e2e8f0; /* Patli line divider ke liye */
+  margin-top: auto; /* Isse footer hamesha niche rahega */
+}
+
+.main-footer p {
+  font-size: 13px;
+  color: #64748b; /* Muted grey color */
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 0.3px;
+}
+
+.main-footer strong {
+  color: #475569;
+  font-weight: 600;
+}

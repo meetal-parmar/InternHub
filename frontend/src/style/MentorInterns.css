@@ -1,10 +1,11 @@
 
 .main-content {
   flex: 1;
-  padding: 30px 40px;
+  padding: 5px 15px ;
   background: #f8fafc;
   min-height: 100vh;
   font-family: 'Inter', sans-serif;
+  margin-top: -20px;
 }
 
 
@@ -17,10 +18,12 @@
 }
 
 .top-bar h2 {
+  /* margin-top: 20px; */
   font-size: 28px;
   font-weight: 700;
   color: #1e293b;
   margin: 0;
+  /* margin-top: -20px; */
 }
 
 .create-btn {
@@ -62,7 +65,7 @@
 
 .search-icon {
   position: absolute;
-  left: 12px;
+  left: 3px;
   color: #94a3b8;
 }
 
@@ -138,6 +141,7 @@ td {
   display: flex;
   align-items: center;
   gap: 12px;
+  margin-left: 70px;
 }
 
 .progress-bg {

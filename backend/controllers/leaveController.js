@@ -2,6 +2,7 @@
 // controllers/leaveController.js
 const Leave = require("../models/Leave");
 const Notification = require("../models/Notification");
+
 const User = require("../models/usersModel");
 
 exports.applyLeave = async (req, res) => {
@@ -80,24 +81,55 @@ exports.updateStatus = async (req, res) => {
     const { leaveId, status } = req.body;
 
     const leave = await Leave.findById(leaveId);
-    if (!leave) return res.status(404).json({ message: "Leave not found" });
+
+    if (!leave) {
+      return res.status(404).json({
+        success: false,
+        message: "Leave not found",
+      });
+    }
+
 
     leave.status = status;
     await leave.save();
 
-    // 🔔 Notify Intern
+
+    // ⏳ UNCOMMENT AFTER FRIEND PUSHES NOTIFICATION
+    
+    let notificationType =
+      status === "Approved"
+        ? "leave_approved"
+        : "leave_rejected";
+
     await Notification.create({
       userId: leave.internId,
       title: `Leave ${status}`,
       message: `Your leave has been ${status}`,
-      type: status.toLowerCase(),
+
+  //     type: status.toLowerCase(),
+  //     relatedId: leave._id,
+  //   });
+
+  //   res.json({ success: true, leave });
+
+  // } catch (error) {
+  //   res.status(500).json({ success: false, message: error.message });
+
+    type: notificationType,
       relatedId: leave._id,
     });
+    
 
-    res.json({ success: true, leave });
-
+    res.json({
+      success: true,
+      leave,
+    });
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    console.error("Update leave status error:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };
 
@@ -147,12 +179,27 @@ exports.getInternLeaves = async (req, res) => {
   }
 };
 
-// GET Mentor Assigned Leaves
+// exports.getMentorLeaves = async (req, res) => {
+//   try {
+//     const leaves = await Leave.find({ mentorId: req.user._id }).populate("internId", "name email");
+//     res.json(leaves);
+//   } catch (error) {
+//     res.status(500).json({ success: false, message: error.message });
+//   }
+// };
+
 exports.getMentorLeaves = async (req, res) => {
   try {
-    const leaves = await Leave.find({ mentorId: req.user._id }).populate("internId", "name email");
+    const leaves = await Leave.find({
+      mentorId: req.user._id,
+    }).populate("internId");
+
     res.json(leaves);
   } catch (error) {
-    res.status(500).json({ success: false, message: error.message });
+    console.error("Mentor leaves fetch error:", error);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    });
   }
 };

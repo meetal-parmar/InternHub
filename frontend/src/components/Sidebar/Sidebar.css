@@ -11,7 +11,8 @@
 .sidebar-container {
   position: fixed;
   left: 0; top: 0;
-  width: var(--sidebar-expanded);
+  /* CHANGE: Change variable to expanded and remove transition if no longer needed */
+  width: var(--sidebar-expanded); 
   height: 100vh;
   background: var(--sidebar-glass);
   backdrop-filter: blur(20px);
@@ -21,13 +22,11 @@
   z-index: 1000;
   font-family: 'Plus Jakarta Sans', sans-serif;
   overflow: hidden;
-  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
-
 /* Sidebar expansion trigger */
-.sidebar-container:hover {
+/* .sidebar-container:hover {
   width: var(--sidebar-expanded);
-}
+} */
 
 .sidebar-logo {
   padding: 30px 20px;
@@ -77,18 +76,19 @@
 .icon { font-size: 1.15rem; }
 
 .nav-label {
-  opacity: 0;
+  /* CHANGE: Set opacity to 1 and remove the translateX transform */
+  opacity: 1;
   margin-left: 8px;
-  transition: opacity 0.3s ease, transform 0.3s ease;
   white-space: nowrap;
-  transform: translateX(-10px); /* Slide in effect for text */
+  transform: translateX(0); 
+  transition: color 0.3s ease;
 }
 
 /* Label becomes visible when sidebar is hovered */
-.sidebar-container:hover .nav-label { 
+/* .sidebar-container:hover .nav-label { 
   opacity: 1; 
   transform: translateX(0);
-}
+} */
 
 /* --- COMPACT ACTIVE STATE (Unchanged) --- */
 .sidebar-nav a.active {

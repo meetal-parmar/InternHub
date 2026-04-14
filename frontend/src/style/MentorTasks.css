@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 .tasks-container {
-  padding: 40px 0;
+  padding: 20px 0px;
   font-family: 'Inter', sans-serif;
   background-color: #f9fafb;
   min-height: 100vh;
@@ -11,8 +11,8 @@
 }
 
 .content-wrapper {
-  width: 90%;
-  max-width: 1200px;
+  width: 97%;
+  max-width: 2000px;
 }
 
 .tasks-header {
@@ -350,7 +350,6 @@
   text-decoration: none;
 }
 
-.priority-pill,
 .status-pill {
   display: inline-flex;
   align-items: center;
@@ -360,44 +359,41 @@
   font-size: 12px !important;
   font-weight: 700 !important;
   width: fit-content;
-  margin-top: 4px;
+  text-transform: uppercase; /* Images ke mutabik uppercase */
+  letter-spacing: 0.5px;
 }
 
-/* Priority colors */
-.priority-pill.high {
-  background: #fee2e2;
-  color: #dc2626 !important;
-}
-
-.priority-pill.medium {
-  background: #fef3c7;
-  color: #d97706 !important;
-}
-
-.priority-pill.low {
-  background: #dcfce7;
-  color: #16a34a !important;
-}
-
-/* Status colors */
-.status-pill.pending {
-  background: #fef9c3;
-  color: #854d0e !important;
-}
-
-.status-pill.in-progress {
-  background: #dbeafe;
-  color: #1d4ed8 !important;
-}
-
-.status-pill.approved {
-  background: #dcfce7;
+/* 1. APPROVED / ACTIVE (Green) */
+.status-pill.approved, 
+.status-pill.active {
+  background: #dcfce7 !important;
   color: #166534 !important;
 }
 
+/* 2. PENDING (Yellow/Gold) */
+.status-pill.pending {
+  background: #fef9c3 !important;
+  color: #854d0e !important;
+}
+
+/* 3. IN PROGRESS / SUBMITTED (Blue) */
+.status-pill.in-progress, 
+.status-pill.submitted {
+  background: #dbeafe !important;
+  color: #1d4ed8 !important;
+}
+
+/* 4. CHANGES REQUESTED / OVERDUE (Red) */
+.status-pill.changes-requested, 
 .status-pill.overdue {
-  background: #fee2e2;
+  background: #fee2e2 !important;
   color: #dc2626 !important;
+}
+
+/* 5. UNDER REVIEW (Orange/Amber) */
+.status-pill.under-review {
+  background: #fef3c7 !important;
+  color: #d97706 !important;
 }
 
 .delete-modal {

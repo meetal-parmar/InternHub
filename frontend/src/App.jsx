@@ -5,7 +5,7 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import { Toaster } from 'react-hot-toast';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
+import Sidebar from './components/Sidebar/Sidebar';
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -27,29 +27,57 @@ import AddMaterial from "./pages/MentorPage/AddMaterial";
 import MentorMaterials from "./pages/MentorPage/MentorMaterials";
 import InternMaterials from './pages/InternPage/InternMaterials';
 import LeavesPage  from './pages/LeavesPage';
-import Sidebar from './components/Sidebar/Sidebar';
 import ProtectedRoute from "./components/ProtectedRoute";
 import InternTask from "./pages/InternPage/InternTask";
 import MonthlySummary from "./pages/MentorMonthlySummaryPage";
+import MentorTimelinePage  from "./pages/MentorPage/MentorTimelinePage";
+import MentorLeavesPage from "./pages/MentorPage/MentorLeavesPage";
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 
-const DashboardLayout = ({ children }) => (
-  <div style={{ 
-    display: 'flex', 
-    minHeight: '100vh', 
-    background: '#f1f3f6', // YAHAN COLOR FIX KAREIN
-    overflowX: 'hidden' 
-  }}>
-    <Sidebar />
-    <main style={{ 
-      flex: 1, 
-      marginLeft: '250px', 
-      padding: '30px',
-      background: '#f1f3f6' // MAIN CONTENT KA BACKGROUND BHI SAME RAKHEIN
+const DashboardLayout = ({ children }) => {
+  return (
+    <div style={{
+      display: "flex",
+      minHeight: "100vh",
+      width: "100%",
+      overflow: "hidden",
+      background: "#f1f3f6"
     }}>
-      {children}
-    </main>
-  </div>
-);
+      
+      {/* SIDEBAR */}
+      <Sidebar />
+
+      {/* MAIN AREA */}
+      <div style={{
+        flex: 1,
+        marginLeft: "240px",
+        display: "flex",
+        flexDirection: "column",
+        height: "100vh",
+        overflow: "hidden"
+      }}>
+
+        {/* HEADER */}
+        <Header />
+
+        {/* SCROLLABLE CONTENT */}
+        <main style={{
+          flex: 1,
+          overflowY: "auto",
+          padding: "30px",
+          background: "#f1f3f6"
+        }}>
+          {children}
+        </main>
+
+        {/* FOOTER */}
+        <Footer />
+
+      </div>
+    </div>
+  );
+};
 
 function App() {
   return (
@@ -75,6 +103,7 @@ function App() {
         <Route path="/forgot" element={<ForgotPassword/>}/>
         <Route path="/verify" element={<VerifyOtp/>}/>
         <Route path="/reset" element={<ResetPassword/>}/>
+
 
 <Route path="/intern-dashboard" element={
           <ProtectedRoute allowedRole="INTERN">
@@ -161,6 +190,11 @@ function App() {
             <DashboardLayout><ReviewTasks /></DashboardLayout>
           </ProtectedRoute>
         }/>
+          <Route path="/mentor/timeline" element={
+          <ProtectedRoute allowedRole="MENTOR">
+            <DashboardLayout><MentorTimelinePage /></DashboardLayout>
+          </ProtectedRoute>
+        }/>
 
         <Route path="/mentor/monthlySummary" element={
           <ProtectedRoute allowedRole="MENTOR">
@@ -177,6 +211,12 @@ function App() {
         <Route path="/mentor/materials" element={
           <ProtectedRoute allowedRole="MENTOR">
             <DashboardLayout><MentorMaterials /></DashboardLayout>
+          </ProtectedRoute>
+        }/>
+
+                <Route path="/mentor/leaves" element={
+          <ProtectedRoute allowedRole="MENTOR">
+            <DashboardLayout><MentorLeavesPage /></DashboardLayout>
           </ProtectedRoute>
         }/>
 
