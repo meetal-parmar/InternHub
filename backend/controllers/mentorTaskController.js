@@ -1,6 +1,6 @@
 
 const Task = require("../models/Task");
-//const Notification = require("../models/Notification");
+const Notification = require("../models/Notification");
 exports.createTask = async (req, res) => {
   try {
     const mentorId = req.user._id;
@@ -166,6 +166,12 @@ exports.reviewTask = async (req, res) => {
     });
 
     await task.save();
+
+     await Notification.findOneAndDelete({
+      relatedId: task._id,
+      type: "task_submitted",
+      userId: req.user._id,
+    });
 
     res.status(200).json({
       success: true,

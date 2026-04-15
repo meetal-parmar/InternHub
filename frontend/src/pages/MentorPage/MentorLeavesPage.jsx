@@ -180,29 +180,55 @@ const MentorLeavesPage = () => {
     setLeaves(res.data);
   };
 
-  const updateStatus = async (leaveId, status) => {
-    const token = localStorage.getItem("token");
+  // const updateStatus = async (leaveId, status) => {
+  //   const token = localStorage.getItem("token");
 
-    await axios.post(
-      `${BASE_URL}/leaves/status`,
-      { leaveId, status },
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      }
-    );
+  //   await axios.post(
+  //     `${BASE_URL}/leaves/status`,
+  //     { leaveId, status },
+  //     {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     }
+  //   );
 
-    // ✅ instant UI sync
-    await fetchLeaves();
-  };
+  //   // ✅ instant UI sync
+  //   await fetchLeaves();
+  // };
+
+const updateStatus = async (leaveId, status) => {
+  const token = localStorage.getItem("token");
+
+  await axios.post(
+    `${BASE_URL}/leaves/status`,
+    { leaveId, status },
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
+
+  // remove from list instantly
+  setLeaves((prev) =>
+    prev.filter((leave) => leave._id !== leaveId)
+  );
+};
+
 
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString("en-GB");
   };
 
   const filteredLeaves = useMemo(() => {
-    if (filter === "All") return leaves;
-    return leaves.filter((leave) => leave.status === filter);
-  }, [leaves, filter]);
+  let filtered =
+    filter === "All"
+      ? [...leaves]
+      : leaves.filter((leave) => leave.status === filter);
+
+  return filtered.sort(
+    (a, b) =>
+      new Date(b.createdAt || b.fromDate) -
+      new Date(a.createdAt || a.fromDate)
+  );
+}, [leaves, filter]);
 
   const leaveCountByIntern = useMemo(() => {
     const map = {};

@@ -12,32 +12,30 @@ exports.getDashboardStats = async (req, res) => {
   try {
     const mentorId = req.user._id;
 
-    // ✅ total interns assigned to mentor
     const totalInterns = await User.countDocuments({
       mentor: mentorId,
       role: "INTERN",
     });
 
-    let onLeaveInterns = 0;
-    let newLeaveApply = 0;
+    const todayStart = new Date();
+    todayStart.setHours(0, 0, 0, 0);
 
-    
-    // ⏳ UNCOMMENT AFTER FRIEND MERGE
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const todayEnd = new Date();
+    todayEnd.setHours(23, 59, 59, 999);
 
-    onLeaveInterns = await Leave.countDocuments({
+    const todayLeaveList = await Leave.find({
       mentorId,
       status: "Approved",
-      fromDate: { $lte: today },
-      toDate: { $gte: today },
-    });
+      fromDate: { $lte: todayEnd },
+      toDate: { $gte: todayStart },
+    }).populate("internId", "name");
 
-    newLeaveApply = await Leave.countDocuments({
+    const onLeaveInterns = todayLeaveList.length;
+
+    const newLeaveApply = await Leave.countDocuments({
       mentorId,
       status: "Pending",
     });
-    
 
     const newTaskSubmission = await Task.countDocuments({
       mentorId,
@@ -54,6 +52,7 @@ exports.getDashboardStats = async (req, res) => {
         onLeaveInterns,
         newTaskSubmission,
         newLeaveApply,
+        todayLeaveList,
       },
     });
   } catch (error) {
@@ -75,12 +74,28 @@ exports.getAttendanceTrends = async (req, res) => {
       role: "INTERN",
     });
 
-    const days = ["Mon", "Tue", "Wed", "Thu", "Fri"];
+    for (let i = 4; i >= 0; i--) {
+      const currentDate = new Date();
+      currentDate.setDate(currentDate.getDate() - i);
 
-    for (let i = 0; i < 5; i++) {
+      const dayStart = new Date(currentDate);
+      dayStart.setHours(0, 0, 0, 0);
+
+      const dayEnd = new Date(currentDate);
+      dayEnd.setHours(23, 59, 59, 999);
+
+      const onLeaveCount = await Leave.countDocuments({
+        mentorId,
+        status: "Approved",
+        fromDate: { $lte: dayEnd },
+        toDate: { $gte: dayStart },
+      });
+
       trends.push({
-        day: days[i],
-        present: totalInterns,
+        day: dayStart.toLocaleDateString("en-US", {
+          weekday: "short",
+        }),
+        present: totalInterns - onLeaveCount,
       });
     }
 
@@ -108,7 +123,7 @@ exports.getMentorNotifications = async (req, res) => {
       isRead: false,
     })
       .sort({ createdAt: -1 })
-      .limit(5);
+      .limit(10);
     
 
     res.status(200).json({
@@ -123,3 +138,4 @@ exports.getMentorNotifications = async (req, res) => {
     });
   }
 };
+

@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 import { 
   LuLayoutDashboard, LuUser, LuClipboardList, LuUsers,
 
-  LuFileText, LuFileCheck, LuLogOut ,LuHistory,LuListTodo,LuCalendarCheck 
+  LuFileText, LuFileCheck, LuTrendingUp ,LuHistory,LuListTodo,LuCalendarCheck 
 } from 'react-icons/lu'; 
 import './Sidebar.css';
 
@@ -19,7 +19,7 @@ const Sidebar = () => {
     { to: "/mentor/materials", label: "Materials", icon: <LuFileText /> },
     { to: "/mentor/reviews", label: "Review Task", icon: <LuFileCheck /> },
     { to: "/mentor/timeline", label: "Intern TimeLog", icon: <LuHistory /> },
-    { to: "/mentor/monthlySummary", label: "Monthly Summary", icon: <LuHistory /> },
+    { to: "/mentor/monthlySummary", label: "Monthly Summary", icon: <LuTrendingUp /> },
         { to: "/mentor/leaves", label: "Leave Manegement", icon: <LuCalendarCheck /> }
   ];
 

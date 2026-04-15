@@ -71,6 +71,7 @@ exports.createIntern = async (req, res) => {
 };
 
 
+// mentorController.js mein getMyInterns function ko update karein
 exports.getMyInterns = async (req, res) => {
   try {
     const mentorId = req.user._id;
@@ -78,16 +79,17 @@ exports.getMyInterns = async (req, res) => {
     const interns = await User.find({
       mentor: mentorId,
       role: "INTERN"
-    }).lean();
+    }).select("-password").lean();
 
     const result = await Promise.all(
       interns.map(async (intern) => {
         const profile = await InternProfile.findOne({
           userId: intern._id
-        });
+        }).lean();
 
         return {
           ...intern,
+          isActive: intern.isActive !== false,
           profile
         };
       })
@@ -95,12 +97,9 @@ exports.getMyInterns = async (req, res) => {
 
     res.json(result);
   } catch (error) {
-    res.status(500).json({
-      error: error.message
-    });
+    res.status(500).json({ error: error.message });
   }
 };
-
 
 exports.getSingleIntern = async (req, res) => {
   try {

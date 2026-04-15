@@ -1,5 +1,5 @@
 const Task = require("../models/Task");
-
+const Notification = require("../models/Notification");
 // 1. Fetch All Tasks with Overdue Logic
 exports.getInternTasks = async (req, res) => {
   try {
@@ -71,6 +71,79 @@ exports.getTaskDetails = async (req, res) => {
 };
 
 // 3. Submit Task (Even if Overdue)
+// exports.submitTask = async (req, res) => {
+//   try {
+//     const { submissionLink, submissionNotes } = req.body;
+
+//     const task = await Task.findOne({
+//       _id: req.params.id,
+//       internId: req.user._id,
+//     });
+
+//     if (!task) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Task not found",
+//       });
+//     }
+
+//     // ❌ Prevent submit after approval
+//     if (task.status === "Approved") {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Task already approved. Cannot submit again.",
+//       });
+//     }
+
+//     // ❌ Prevent duplicate submission
+//     if (task.status === "Submitted" || task.status === "Under Review") {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Already submitted. Wait for mentor review.",
+//       });
+//     }
+
+//     // ✅ Save previous version
+//     if (task.submissionLink || task.submissionNotes || task.submissionFile) {
+//       task.submissionVersions.push({
+//         submissionLink: task.submissionLink,
+//         submissionNotes: task.submissionNotes,
+//         submittedAt: new Date(),
+//       });
+//     }
+
+//     // ✅ Update new submission
+//     task.submissionLink = submissionLink;
+//     task.submissionNotes = submissionNotes;
+
+//     // ✅ Status update
+//     task.status = "Submitted";
+
+//     await task.save();
+
+//     // ✅ CREATE NOTIFICATION FOR MENTOR
+//     // await Notification.create({
+//     //   userId: task.mentorId,
+//     //   title: "New Task Submission",
+//     //   message: `${req.user.name} submitted task "${task.title}"`,
+//     //   type: "task_submitted",
+//     //   relatedId: task._id,
+//     //   relatedModel: "Task",
+//     // });
+
+//     res.status(200).json({
+//       success: true,
+//       message: "Task submitted successfully",
+//       task,
+//     });
+//   } catch (error) {
+//     res.status(500).json({
+//       success: false,
+//       message: "Submission failed",
+//     });
+//   }
+// };
+
 exports.submitTask = async (req, res) => {
   try {
     const { submissionLink, submissionNotes } = req.body;
@@ -87,24 +160,22 @@ exports.submitTask = async (req, res) => {
       });
     }
 
-    // ❌ Prevent submit after approval
     if (task.status === "Approved") {
       return res.status(400).json({
         success: false,
-        message: "Task already approved. Cannot submit again.",
+        message: "Task already approved",
       });
     }
 
-    // ❌ Prevent duplicate submission
-    if (task.status === "Submitted" || task.status === "Under Review") {
+    if (["Submitted", "Under Review"].includes(task.status)) {
       return res.status(400).json({
         success: false,
-        message: "Already submitted. Wait for mentor review.",
+        message: "Already submitted",
       });
     }
 
-    // ✅ Save previous version
-    if (task.submissionLink || task.submissionNotes || task.submissionFile) {
+    // save old versions
+    if (task.submissionLink || task.submissionNotes) {
       task.submissionVersions.push({
         submissionLink: task.submissionLink,
         submissionNotes: task.submissionNotes,
@@ -112,14 +183,20 @@ exports.submitTask = async (req, res) => {
       });
     }
 
-    // ✅ Update new submission
     task.submissionLink = submissionLink;
     task.submissionNotes = submissionNotes;
-
-    // ✅ Status update
     task.status = "Submitted";
 
     await task.save();
+
+    // ✅ mentor notification
+    await Notification.create({
+      userId: task.mentorId,
+      title: "New Task Submission",
+      message: `${req.user.name} submitted "${task.title}"`,
+      type: "task_submitted",
+      relatedId: task._id,
+    });
 
     res.status(200).json({
       success: true,
@@ -127,6 +204,7 @@ exports.submitTask = async (req, res) => {
       task,
     });
   } catch (error) {
+    console.error("Submit task error:", error);
     res.status(500).json({
       success: false,
       message: "Submission failed",

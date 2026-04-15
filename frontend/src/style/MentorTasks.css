@@ -108,14 +108,14 @@
   font-weight: 700;
   color: #0f172a;
 }
-
+/* 
 .badge {
   padding: 6px 14px;
   border-radius: 20px;
   font-size: 12px;
   font-weight: 700;
   display: inline-block;
-}
+} */
 .status-pill {
   display: inline-flex;
   align-items: center;
@@ -155,8 +155,8 @@
 
 /* Changes Requested */
 .status-pill.changes-requested {
-  background: #fee2e2;
-  color: #dc2626 !important;
+  background: #ecc0c0;
+  color: #a1c822 !important;
 }
 
 /* Under Review */
@@ -226,7 +226,7 @@
 }
 
 .cancel-btn {
-  background-color: #94a3b8;
+  background-color: #88b3f0;
 }
 
 .cancel-btn:hover {
@@ -384,7 +384,11 @@
 }
 
 /* 4. CHANGES REQUESTED / OVERDUE (Red) */
-.status-pill.changes-requested, 
+.status-pill.changes-requested
+{
+   background: #e8b3d6 !important;
+  color: #810f64 !important;
+}
 .status-pill.overdue {
   background: #fee2e2 !important;
   color: #dc2626 !important;

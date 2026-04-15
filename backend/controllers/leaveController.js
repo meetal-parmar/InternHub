@@ -76,11 +76,121 @@ exports.applyLeave = async (req, res) => {
 // };
 
 // UPDATE STATUS - Mentor Only
+// exports.updateStatus = async (req, res) => {
+//   try {
+//     const { leaveId, status } = req.body;
+
+//     const leave = await Leave.findById(leaveId);
+
+//     if (!leave) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Leave not found",
+//       });
+//     }
+
+
+//     leave.status = status;
+//     await leave.save();
+
+
+//     // ⏳ UNCOMMENT AFTER FRIEND PUSHES NOTIFICATION
+    
+//     let notificationType =
+//       status === "Approved"
+//         ? "leave_approved"
+//         : "leave_rejected";
+
+//     await Notification.create({
+//       userId: leave.internId,
+//       title: `Leave ${status}`,
+//       message: `Your leave has been ${status}`,
+
+//   //     type: status.toLowerCase(),
+//   //     relatedId: leave._id,
+//   //   });
+
+//   //   res.json({ success: true, leave });
+
+//   // } catch (error) {
+//   //   res.status(500).json({ success: false, message: error.message });
+
+//     type: notificationType,
+//       relatedId: leave._id,
+//     });
+    
+
+//     res.json({
+//       success: true,
+//       leave,
+//     });
+//   } catch (error) {
+//     console.error("Update leave status error:", error);
+//     res.status(500).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// };
+
+// exports.updateStatus = async (req, res) => {
+//   try {
+//     const { leaveId, status } = req.body;
+
+//     const leave = await Leave.findById(leaveId).populate("internId");
+
+//     if (!leave) {
+//       return res.status(404).json({
+//         success: false,
+//         message: "Leave not found",
+//       });
+//     }
+
+//     // already processed leave pe action mat allow karo
+//     if (leave.status !== "Pending") {
+//       return res.status(400).json({
+//         success: false,
+//         message: "Leave already processed",
+//       });
+//     }
+
+//     leave.status = status;
+//     await leave.save();
+
+//     const notificationType =
+//       status === "Approved"
+//         ? "leave_approved"
+//         : "leave_rejected";
+
+//     // ✅ intern ko notification
+//     await Notification.create({
+//       userId: leave.internId._id,
+//       title: `Leave ${status}`,
+//       message: `Your ${leave.type} leave request has been ${status}.`,
+//       type: notificationType,
+//       relatedId: leave._id,
+//     });
+
+//     res.json({
+//       success: true,
+//       message: `Leave ${status} successfully`,
+//       leave,
+//     });
+//   } catch (error) {
+//     console.error("Update leave status error:", error);
+//     res.status(500).json({
+//       success: false,
+//       message: error.message,
+//     });
+//   }
+// };
+
+
 exports.updateStatus = async (req, res) => {
   try {
     const { leaveId, status } = req.body;
 
-    const leave = await Leave.findById(leaveId);
+    const leave = await Leave.findById(leaveId).populate("internId");
 
     if (!leave) {
       return res.status(404).json({
@@ -89,39 +199,47 @@ exports.updateStatus = async (req, res) => {
       });
     }
 
+    if (leave.status !== "Pending") {
+      return res.status(400).json({
+        success: false,
+        message: "Leave already processed",
+      });
+    }
 
     leave.status = status;
     await leave.save();
 
-
-    // ⏳ UNCOMMENT AFTER FRIEND PUSHES NOTIFICATION
-    
-    let notificationType =
+    const notificationType =
       status === "Approved"
         ? "leave_approved"
         : "leave_rejected";
 
+    // ✅ intern notification
     await Notification.create({
-      userId: leave.internId,
+      userId: leave.internId._id,
       title: `Leave ${status}`,
-      message: `Your leave has been ${status}`,
-
-  //     type: status.toLowerCase(),
-  //     relatedId: leave._id,
-  //   });
-
-  //   res.json({ success: true, leave });
-
-  // } catch (error) {
-  //   res.status(500).json({ success: false, message: error.message });
-
-    type: notificationType,
+      message: `Your ${leave.type} leave request has been ${status}.`,
+      type: notificationType,
       relatedId: leave._id,
     });
-    
+
+    // ✅ mentor dashboard se remove
+    await Notification.updateMany(
+      {
+        relatedId: leave._id,
+        userId: req.user._id,
+        type: "leave_apply",
+        isRead: false,
+      },
+      {
+        isRead: true,
+        readAt: new Date(),
+      }
+    );
 
     res.json({
       success: true,
+      message: `Leave ${status} successfully`,
       leave,
     });
   } catch (error) {
@@ -132,6 +250,7 @@ exports.updateStatus = async (req, res) => {
     });
   }
 };
+
 
 // DELETE LEAVE (Cancel) - Intern Only
 exports.deleteLeave = async (req, res) => {

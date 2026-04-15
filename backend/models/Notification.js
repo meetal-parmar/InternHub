@@ -23,7 +23,8 @@ const notificationSchema = new mongoose.Schema({
 
   type: {
     type: String,
-    enum: ["leave_apply", "leave_approved", "leave_rejected"],
+    enum: ["leave_apply", "leave_approved", "leave_rejected","task_submitted",
+        "task_reviewed"],
     required: true,
   },
 

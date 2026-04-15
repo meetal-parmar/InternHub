@@ -124,11 +124,15 @@ export default function MentorTasks() {
                   <td className="intern-name">{task.internId?.name || "-"}</td>
                   <td>{new Date(task.deadline).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" })}</td>
                   <td className={`priority-${task.priority.toLowerCase()}`}>{task.priority}</td>
-                  <td>
-                    <span className={`badge status-${task.status.toLowerCase().replace(" ", "-")}`}>
-                      {task.status.toUpperCase()}
-                    </span>
-                  </td>
+                 <td>
+  <span
+    className={`status-pill ${task.status
+      .toLowerCase()
+      .replace(/\s+/g, "-")}`}
+  >
+    {task.status}
+  </span>
+</td>
                   <td className="col-actions">
                     <div className="actions-cell">
                     <button className="action-btn btn-view"  title="View Details"onClick={() => setViewTask(task)}> <FiEye /></button>

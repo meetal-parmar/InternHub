@@ -66,3 +66,40 @@
   color: #688ee7;
   font-weight: 600;
 }
+
+.leave-hover-card {
+  position: relative;
+  cursor: pointer;
+}
+
+.leave-hover-list {
+  position: absolute;
+  top: 110%;
+  left: 0;
+  width: 220px;
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  padding: 12px;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: all 0.25s ease;
+  z-index: 100;
+}
+
+.leave-hover-card:hover .leave-hover-list {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  
+  
+}
+
+.leave-hover-list p {
+  margin: 6px 0;
+  font-size: 14px;
+  color: #334155;
+  font-weight: 500;
+}
