@@ -18,7 +18,7 @@ const Sidebar = () => {
     { to: "/mentor/tasks", label: "Tasks", icon: <LuListTodo /> },
     { to: "/mentor/materials", label: "Materials", icon: <LuFileText /> },
     { to: "/mentor/reviews", label: "Review Task", icon: <LuFileCheck /> },
-    { to: "/mentor/timeline", label: "Intern TimeLog", icon: <LuHistory /> },
+    { to: "/mentor/timeline", label: "Intern TimeLog", icon: <LuClipboardList /> },
 
     { to: "/mentor/monthlySummary", label: "Monthly Summary", icon: <LuHistory /> },
     { to: "/mentor/leaves", label: "Leave Manegement", icon: <LuCalendarCheck /> }
