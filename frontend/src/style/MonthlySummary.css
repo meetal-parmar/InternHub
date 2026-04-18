@@ -1,3 +1,4 @@
+
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 :root {
@@ -94,27 +95,33 @@
 }
 
 .date-cell {
-    position: relative;
+     position: relative;
     height: 95px; 
-    
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
-
     border-radius: 14px; 
-    
-    background: rgba(255,255,255,0.6);
-    
-    border: none;
+    background: white !important; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    border: 1px solid rgba(37, 99, 235, 0.2) !important; 
+
 }
 
-.other-month,
+/* .other-month,
 .weekend-cell {
     background: rgba(0, 0, 0, 0.15) !important;
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     color: #283449;
 border-radius: 14px;
+
+} */
+ .date-cell.other-month,
+.date-cell.weekend-cell {
+    background: rgba(0, 0, 0, 0.12) !important; /* डार्क ग्रे शेड */
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
 }
 
 .other-month .date-number,
@@ -128,22 +135,38 @@ border-radius: 14px;
 }
 
 .date-number {
-    position: absolute;
+    /* position: absolute;
     top: 10px;
     right: 10px;
     color: var(--text-muted);
     font-size: 0.85rem;
-    font-weight: 500;
+    font-weight: 500; */
+    position: absolute; /* सबसे जरूरी */
+    top: 10px;
+    right: 12px;
+    color: #64748b;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
 }
 
 .hours-logged {
+    /* font-weight: 800;
+    font-size: 1.1rem;
+    color: #1e293b; */
     font-weight: 800;
     font-size: 1.1rem;
-    color: #1e293b;
+    color: #323c4d;
+    margin: 0; /* एक्स्ट्रा मार्जिन हटा दें */
+    display: block;
+    margin-top: 30px;
 }
 
 .logged-day {
-    background-color: var(--white);
+    /* background-color: var(--white); */
+    background: white !important; /* सफेद बैकग्राउंड */
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    border: 1px solid rgba(37, 99, 235, 0.2) !important;
 }
 
 .right-panel-analysis { flex: 1.3; }
@@ -169,6 +192,7 @@ border-radius: 14px;
     border-bottom: 1px solid var(--border);
     padding-bottom: 10px;
     margin-bottom: 20px;
+    
 }
 
 .kpi-card-grid {
@@ -327,3 +351,4 @@ border-radius: 14px;
     outline: none;
     border-color: #2563eb;
 }
+

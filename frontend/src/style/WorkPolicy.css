@@ -1,0 +1,152 @@
+.office-container {
+  min-height: 90vh;
+  padding: 40px 20px;
+  background-color: #f8fafc; /* Professional light gray/blue tint */
+  display: flex;
+  justify-content: center;
+  align-items: flex-start; /* Start se behtar lagta hai lengthy content ke liye */
+}
+
+.office-card {
+  width: 100%;
+  max-width: 900px; /* Thoda narrow width readability badhata hai */
+  padding: 40px;
+  border-radius: 20px;
+  background: #ffffff;
+  
+  /* Soft professional shadow instead of heavy borders */
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 
+              0 8px 10px -6px rgba(0, 0, 0, 0.05);
+  
+  border: 1px solid #e2e8f0;
+  transition: transform 0.3s ease;
+}
+
+.office-title {
+  font-size: 28px; /* Bada aur bold title */
+  font-weight: 700;
+  margin-bottom: 25px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #3b82f6; /* Accent color bottom border */
+  color: #1e293b; /* Darker blue-grey for premium feel */
+  display: flex;
+  align-items: center;
+}
+
+/* Icon support ke liye (optional) */
+.office-title::before {
+  content: "🕒"; 
+  margin-right: 12px;
+  font-size: 24px;
+}
+
+.highlight {
+  font-size: 18px;
+  font-weight: 500;
+  background: #eff6ff; /* Light blue highlight background */
+  padding: 15px 20px;
+  border-left: 4px solid #3b82f6;
+  border-radius: 8px;
+  margin-bottom: 30px;
+  color: #1e40af;
+}
+
+.office-content p {
+  color: #64748b;
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.office-content ol {
+  counter-reset: my-counter;
+  list-style: none;
+  padding-left: 0;
+}
+
+.office-content li {
+  counter-increment: my-counter;
+  position: relative;
+  padding: 15px 15px 15px 50px;
+  margin-bottom: 12px;
+  background: #ffffff;
+  border: 1px solid #f1f5f9;
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+/* Custom Numbering Styling */
+.office-content li::before {
+  content: counter(my-counter);
+  position: absolute;
+  left: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 24px;
+  height: 24px;
+  background-color: #3b82f6;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.office-content li:hover {
+  border-color: #3b82f6;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.1);
+  transform: translateX(5px);
+}
+.office-content li {
+  counter-increment: my-counter;
+  position: relative;
+  
+  /* Text visibility fix */
+  color: #475569; 
+  font-size: 15px;
+  
+  /* Spacing */
+  padding: 18px 20px 18px 60px; /* Left padding badhayi hai taaki text number se door rahe */
+  margin-bottom: 15px;
+  
+  /* Styling */
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  list-style: none; /* Default numbers hatane ke liye */
+  
+  /* Animation */
+  transition: all 0.2s ease-in-out;
+  display: block; /* Ensure block display */
+}
+
+/* Custom Numbering Fix */
+.office-content li::before {
+  content: counter(my-counter);
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  
+  /* Circle styling */
+  width: 28px;
+  height: 28px;
+  background-color: #3b82f6;
+  color: #ffffff;
+  border-radius: 50%;
+  
+  /* Center the number inside circle */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 14px;
+  font-weight: 700;
+  z-index: 1;
+}
+
+.office-content li:hover {
+  border-color: #3b82f6;
+  background-color: #f8fafc;
+  transform: translateX(8px);
+}

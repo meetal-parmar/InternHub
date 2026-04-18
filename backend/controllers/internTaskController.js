@@ -20,7 +20,7 @@ exports.getInternTasks = async (req, res) => {
     for (let task of tasks) {
       if (
         today > new Date(task.deadline) &&
-        !["Approved", "Submitted", "Under Review"].includes(task.status)
+        !["Approved", "Submitted", "Under Review", "Changes Requested"].includes(task.status)
       ) {
         if (task.status !== "Overdue") {
           task.status = "Overdue";

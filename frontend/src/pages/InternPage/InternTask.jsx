@@ -16,7 +16,8 @@ import {
   FileText,
   Flag,
   CheckCircle,
-  Paperclip
+  Paperclip,
+  Clock, AlertCircle, UserCheck
 } from "lucide-react";
 
 export default function InternTaskDashboard() {
@@ -24,6 +25,8 @@ export default function InternTaskDashboard() {
   const [selectedTask, setSelectedTask] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [submitModal, setSubmitModal] = useState(false);
+  const [attendanceData, setAttendanceData] = useState({ totalHours: 0, daysWorked: 0, logs: [] });
+  const [leaves, setLeaves] = useState([]);
 
   const [submission, setSubmission] = useState({
     link: "",
@@ -35,24 +38,85 @@ export default function InternTaskDashboard() {
   const [statusFilter, setStatusFilter] = useState("All");
   const [priorityFilter, setPriorityFilter] = useState("All");
 
-  // ✅ FIXED API
-  const fetchTasks = async () => {
+  const fetchData = async () => {
     try {
       const token = localStorage.getItem("token");
+      const headers = { Authorization: `Bearer ${token}` };
+      const today = new Date();
 
-      const res = await axios.get("http://localhost:3000/my-tasks", {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      // Teeno APIs ko ek saath call kar rahe hain
+      const [taskRes, attRes, leaveRes] = await Promise.all([
+        axios.get("http://localhost:3000/my-tasks", { headers }),
+        axios.get(`http://localhost:3000/intern/monthlySummary?month=${today.getMonth() + 1}&year=${today.getFullYear()}`, { headers }),
+        axios.get("http://localhost:3000/leaves/intern", { headers })
+      ]);
 
-      setTasks(res.data.tasks || []);
+      setTasks(taskRes.data.tasks || []);
+      setAttendanceData(attRes.data.data || { totalHours: 0, daysWorked: 0, logs: [] });
+      setLeaves(leaveRes.data.history || []);
     } catch (err) {
-      console.error("Fetch error:", err.response?.data || err.message);
+      console.error("Fetch error:", err.message);
     }
   };
 
   useEffect(() => {
-    fetchTasks();
+    fetchData();
   }, []);
+
+  // 3. Punctuality Calculation (9:00 AM logic)
+  // const punctuality = useMemo(() => {
+  //   if (!attendanceData.logs || attendanceData.logs.length === 0) return 0;
+    
+  //   // 540 minutes = 9:00 AM (9 hours * 60 min)
+  //   const onTimeCount = attendanceData.logs.filter(log => log.startDecimal <= 540).length;
+  //   return ((onTimeCount / attendanceData.logs.length) * 100).toFixed(0);
+  // }, [attendanceData]);
+
+// useMemo ke andar check karein ki data sahi format mein hai ya nahi
+const punctuality = useMemo(() => {
+  // logs ab daily summary bhej raha hai jisme startDecimal hai
+  const logs = attendanceData?.logs || []; 
+  
+  if (logs.length === 0) return 0;
+  
+  // 540 = 9:00 AM. 
+  // Ye check karega ki us din ka pehla log 9 baje se pehle ka hai ya nahi
+  const onTimeCount = logs.filter(log => 
+    log.startDecimal !== undefined && log.startDecimal <= 540
+  ).length;
+
+  const percentage = (onTimeCount / logs.length) * 100;
+  return Math.min(100, Math.max(0, percentage)).toFixed(0);
+}, [attendanceData]);
+
+  // 4. Upcoming Deadlines (Next 2 urgent tasks)
+  const upcomingDeadlines = useMemo(() => {
+    return [...tasks]
+      .filter(t => t.status !== "Approved") // Jo ho chuke hain unhe hata do
+      .sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
+      .slice(0, 3);
+  }, [tasks]);
+
+
+  // ✅ FIXED API
+  // const fetchTasks = async () => {
+  //   try {
+  //     const token = localStorage.getItem("token");
+
+  //     const res = await axios.get("http://localhost:3000/my-tasks", {
+  //       headers: { Authorization: `Bearer ${token}` },
+  //     });
+
+  //     setTasks(res.data.tasks || []);
+  //   } catch (err) {
+  //     console.error("Fetch error:", err.response?.data || err.message);
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   fetchTasks();
+  // }, []);
+
 
   const handleStartTask = async (id) => {
     try {
@@ -64,7 +128,7 @@ export default function InternTaskDashboard() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      fetchTasks();
+      fetchData();
     } catch (err) {
       console.error("Start error:", err.response?.data || err.message);
     }
@@ -90,7 +154,7 @@ export default function InternTaskDashboard() {
 
       setSubmitModal(false);
       setSubmission({ link: "", notes: "", file: null });
-      fetchTasks();
+      fetchData();
     } catch (err) {
       console.error("Submit error:", err.response?.data || err.message);
     }
@@ -112,14 +176,36 @@ export default function InternTaskDashboard() {
     }
   };
 
+  // const filteredTasks = useMemo(() => {
+  //   return tasks.filter((t) => {
+  //     return (
+  //       t.title.toLowerCase().includes(search.toLowerCase()) &&
+  //       (statusFilter === "All" || t.status === statusFilter) &&
+  //       (priorityFilter === "All" || t.priority === priorityFilter)
+  //     );
+  //   });
+  // }, [tasks, search, statusFilter, priorityFilter]);
+
+  // const stats = useMemo(() => {
+  //   return {
+  //     Pending: tasks.filter((t) => t.status === "Pending").length,
+  //     "In Progress": tasks.filter((t) => t.status === "In Progress").length,
+  //     Submitted: tasks.filter((t) => t.status === "Submitted").length,
+  //     Approved: tasks.filter((t) => t.status === "Approved").length,
+  //     Overdue: tasks.filter((t) => t.status === "Overdue").length,
+  //   };
+  // }, [tasks]);
+
   const filteredTasks = useMemo(() => {
-    return tasks.filter((t) => {
-      return (
-        t.title.toLowerCase().includes(search.toLowerCase()) &&
-        (statusFilter === "All" || t.status === statusFilter) &&
-        (priorityFilter === "All" || t.priority === priorityFilter)
-      );
-    });
+    return tasks
+      .filter((t) => {
+        return (
+          t.title.toLowerCase().includes(search.toLowerCase()) &&
+          (statusFilter === "All" || t.status === statusFilter) &&
+          (priorityFilter === "All" || t.priority === priorityFilter)
+        );
+      })
+      .sort((a, b) => b._id.localeCompare(a._id)); // Naya task upar aayega
   }, [tasks, search, statusFilter, priorityFilter]);
 
   const stats = useMemo(() => {
@@ -172,31 +258,93 @@ export default function InternTaskDashboard() {
 
   return (
     <div className="task-dashboard">
-      <h1 className="dashboard-title">Intern Dashboard</h1>
+      <div className="dashboard-container">
+      {/* <h1 className="dashboard-title">Intern Dashboard</h1> */}
 
       {/* CHART */}
-      <div className="card chart-card">
-        <h3>Task Overview</h3>
+{/* ================= TOP STATS CARDS (3 COLUMNS) ================= */}
+        <div className="top-cards" style={{ gridTemplateColumns: "1.2fr 1fr 1fr" }}>
+          
+          {/* 1. TASK OVERVIEW (Aapka existing Pie Chart) */}
+          <div className="card chart-card">
+            <h3 className="chart-title"><Flag size={18} style={{marginRight: '8px'}}/> Task Overview</h3>
+            <ResponsiveContainer width="100%" height={220}>
+              <PieChart>
+                <Pie
+                  data={chartData}
+                  innerRadius={60}
+                  outerRadius={85}
+                  paddingAngle={5}
+                  dataKey="value"
+                >
+                  {chartData.map((_, i) => (
+                    <Cell key={i} fill={COLORS[i]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+            <div className="chart-legend-custom">
+               {chartData.map((entry, i) => (
+                 <div key={i} className="legend-item">
+                   <span style={{background: COLORS[i]}}></span>
+                   {entry.name}
+                 </div>
+               ))}
+            </div>
+          </div>
 
-        <ResponsiveContainer width="100%" height={280}>
-          <PieChart>
-            <Pie
-              data={chartData}
-              innerRadius={80}
-              outerRadius={110}
-              paddingAngle={3}
-              dataKey="value"
-            >
-              {chartData.map((_, i) => (
-                <Cell key={i} fill={COLORS[i]} />
-              ))}
-            </Pie>
+          {/* 2. ATTENDANCE SUMMARY CARD (New Card) */}
+          <div className="card active-card">
+            <h3 className="active-title" style={{margin: '0 0 15px 0'}}>
+              <CheckCircle size={18} style={{marginRight: '8px', color: '#10b981'}}/> Attendance Summary
+            </h3>
+            <div className="summary-body">
+              <div className="stat-main">
+                <span className="label">Present Days</span>
+                <span className="value" style={{fontSize: '32px', color: '#2563eb'}}>
+                  {attendanceData.daysWorked || 0}
+                </span>
+              </div>
+              
+              <div className="punctuality-meter" style={{marginTop: '20px'}}>
+                <div className="flex-between">
+                  <span>Punctuality</span>
+                  <strong style={{color: punctuality > 90 ? '#10b981' : '#f59e0b'}}>{punctuality}%</strong>
+                </div>
+<div className="progress-bar-bg">
+  <div 
+    className="progress-fill" 
+    style={{ width: `${attendanceData.logs?.length > 0 ? punctuality : 0}%` }}
+  ></div>
+</div>
+              </div>
 
-            <Tooltip />
-            <Legend verticalAlign="bottom" height={36} />
-          </PieChart>
-        </ResponsiveContainer>
-      </div>
+              <div style={{marginTop: '15px', fontSize: '13px', color: '#64748b'}}>
+                Pending Leaves: <b style={{color: '#ef4444'}}>{leaves.filter(l => l.status === 'Pending').length}</b>
+              </div>
+            </div>
+          </div>
+
+          {/* 3. KEY DEADLINES CARD (New Card) */}
+          <div className="card active-card">
+            <h3 className="active-title" style={{margin: '0 0 15px 0'}}>
+              <Clock size={18} style={{marginRight: '8px', color: '#ef4444'}}/> Key Deadlines
+            </h3>
+            <div className="deadline-list">
+              {upcomingDeadlines.length > 0 ? upcomingDeadlines.map((task, i) => (
+                <div key={i} className={`deadline-box ${task.status === 'Overdue' ? 'urgent' : ''}`}>
+                  <div className="deadline-info">
+                    <p className="t-title">{task.title}</p>
+                    <p className="t-date">
+                      Due: {new Date(task.deadline).toLocaleDateString('en-GB').replace(/\//g, '-')}
+                    </p>
+                  </div>
+                </div>
+              )) : <p className="no-data">No upcoming deadlines</p>}
+            </div>
+          </div>
+        </div>
 
       {/* FILTER */}
       <div className="filters">
@@ -223,43 +371,50 @@ export default function InternTaskDashboard() {
       </div>
 
       {/* TABLE */}
-      <table className="task-table">
-        <thead>
-          <tr>
-            <th>Task</th>
-            <th>Deadline</th>
-            <th>Status</th>
-            <th>View</th>
-            <th>Action</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredTasks.map((t) => (
-            <tr key={t._id}>
-              <td>{t.title}</td>
-              <td>{new Date(t.deadline).toLocaleDateString()}</td>
-              <td>
-                <span
-                  className={`badge ${t.status
-                    .toLowerCase()
-                    .replace(/\s/g, "-")}`}
-                >
-                  {t.status}
-                </span>
-              </td>
-              <td>
-                <button
-                  className="view-btn"
-                  onClick={() => handleViewTask(t._id)}
-                >
-                  View
-                </button>
-              </td>
-              <td>{renderAction(t)}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="table-container"> {/* Is wrapper ko width: 100% rakhein */}
+  <table className="task-table">
+    <thead>
+      <tr>
+        <th>Task Title</th>
+        <th>Deadline</th>
+        <th>Status</th>
+        <th>View Details</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+{filteredTasks.map((t) => (
+  <tr key={t._id}>
+    <td className="task-title-cell">{t.title}</td>
+    
+    {/* FIXED DATE FORMAT: DD-MM-YYYY */}
+<td className="date-cell">
+  {new Date(t.deadline).toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric'
+  }).replace(/\//g, '-')}
+</td>
+
+    <td>
+      <span className={`status-pill ${t.status.toLowerCase().replace(/\s/g, "-")}`}>
+        <span className="dot-indicator"></span>
+        {t.status}
+      </span>
+    </td>
+
+    <td>
+      <button className="action-btn-view" onClick={() => handleViewTask(t._id)}>
+        <Eye size={16} /> View
+      </button>
+    </td>
+
+    <td>{renderAction(t)}</td>
+  </tr>
+))}
+</tbody>
+  </table>
+</div>
 
       {/* VIEW MODAL */}
       {/* VIEW MODAL */}
@@ -295,19 +450,43 @@ export default function InternTaskDashboard() {
             </p>
           </div>
 
-          <div className="info-card">
+           {/* <div className="info-card">
             <span className="label"><Flag size={14}/> PRIORITY</span>
             <span className={`tag ${selectedTask.priority?.toLowerCase()}`}>
               {selectedTask.priority}
             </span>
-          </div>
+          </div> */}
 
           <div className="info-card">
+  <span className="label"><Flag size={14}/> PRIORITY</span>
+  <span className={`tag tag-${selectedTask.priority?.toLowerCase().trim()}`}>
+    {selectedTask.priority}
+  </span>
+</div>
+
+          {/* <div className="info-card">
             <span className="label"><CheckCircle size={14}/> STATUS</span>
             <span className={`tag ${selectedTask.status?.toLowerCase().replace(/\s/g,"-")}`}>
               {selectedTask.status}
             </span>
-          </div>
+          </div>  */}
+
+          {/* PRIORITY CARD */}
+{/* <div className="info-card">
+  <span className="label"><Flag size={14}/> PRIORITY</span>
+  <span className={`tag tag-${selectedTask.priority?.toLowerCase().trim()}`}>
+    {selectedTask.priority}
+  </span>
+</div> */}
+
+{/* STATUS CARD */}
+<div className="info-card">
+  <span className="label"><CheckCircle size={14}/> STATUS</span>
+  {/* Status के लिए status-approved, status-pending आदि बनेगा */}
+  <span className={`tag status-${selectedTask.status?.toLowerCase().replace(/\s/g, "-").trim()}`}>
+    {selectedTask.status}
+  </span>
+</div>
         </div>
 
         {/* DESCRIPTION */}
@@ -321,9 +500,9 @@ export default function InternTaskDashboard() {
           <div className="modal-section material-box">
             <span className="label text-sky-600"><Paperclip size={14}/> MENTOR'S MATERIAL</span>
             <div className="flex items-center justify-between mt-2 bg-white p-3 rounded-lg border border-sky-100">
-              <span className="text-sm font-semibold text-slate-600 truncate mr-4">
+              {/* <span className="text-sm font-semibold text-slate-600 truncate mr-4">
                 Original Task Document
-              </span>
+              </span> */}
               <a 
                 href={`http://localhost:3000/${selectedTask.mentorAttachment}`} 
                 target="_blank" 
@@ -447,6 +626,7 @@ export default function InternTaskDashboard() {
     </div>
   </div>
 )}
+    </div>
     </div>
   );
 }

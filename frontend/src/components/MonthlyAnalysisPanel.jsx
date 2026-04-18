@@ -16,14 +16,14 @@ const MonthlyAnalysisPanel = ({ data }) => {
         <div className="analysis-wrapper-flex">
             {/* --- TOP: Category Pie Breakup --- */}
             <div className="pie-analysis-section">
-                <h3 className="section-title">CATEGORY BREAKUP (Pie Chart)</h3>
+                <h3 className="section-title">CATEGORY BREAKUP</h3>
                 {data.categoryBreakup && data.categoryBreakup.length > 0 ? (
                     <ResponsiveContainer width="100%" height={250}>
                         <PieChart>
                             <Pie
                                 data={data.categoryBreakup}
                                 cx="50%" cy="50%"
-                                innerRadius={60} outerRadius={100}
+                                innerRadius={50} outerRadius={80}
                                 fill="#8884d8"
                                 dataKey="totalHours"
                                 label
@@ -40,7 +40,7 @@ const MonthlyAnalysisPanel = ({ data }) => {
 
             {/* --- BOTTOM: KPIs Cards --- */}
             <div className="kpi-panel-section">
-                <h3 className="section-title">KEY PERFORMANCE INDICATORS (KPIs)</h3>
+                <h3 className="section-title">KEY PERFORMANCE INDICATORS</h3>
                 <div className="kpi-card-grid">
                     {kpiCards.map(card => (
                         <div key={card.key} className="kpi-card professional-border">

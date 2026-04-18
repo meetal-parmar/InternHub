@@ -19,16 +19,18 @@ const Sidebar = () => {
     { to: "/mentor/materials", label: "Materials", icon: <LuFileText /> },
     { to: "/mentor/reviews", label: "Review Task", icon: <LuFileCheck /> },
     { to: "/mentor/timeline", label: "Intern TimeLog", icon: <LuHistory /> },
-    { to: "/mentor/monthlySummary", label: "Monthly Summary", icon: <LuTrendingUp /> },
-        { to: "/mentor/leaves", label: "Leave Manegement", icon: <LuCalendarCheck /> }
+
+    { to: "/mentor/monthlySummary", label: "Monthly Summary", icon: <LuHistory /> },
+    { to: "/mentor/leaves", label: "Leave Manegement", icon: <LuCalendarCheck /> }
   ];
 
   const internLinks = [
     { to: "/intern-dashboard", label: "Dashboard", icon: <LuLayoutDashboard /> },
-    { to: "/profile", label: "Profile", icon: <LuUser /> },
+    // { to: "/profile", label: "Profile", icon: <LuUser /> },
     { to: "/timelog", label: "TimeLog", icon: <LuClipboardList /> },
     { to: "/monthlySummary", label: "Monthly Summary", icon: <LuHistory /> },
     { to: "/materials", label: "Materials", icon: <LuFileText /> },
+    { to: "/workpolicy", label: "Work Policies", icon: <LuFileText /> },
     { to: "/leaves", label: "Leaves", icon: <LuFileCheck /> }
     
     // { to: "/task", label: "Task", icon: <LuListTodo /> }

@@ -152,89 +152,6 @@ exports.deleteTimelog = async (req, res) => {
         });
     }
 };
-
-// exports.getMonthlyAnalysis = async (req, res) => {
-//     try {
-//         const { month, year } = req.query;
-//         const internId = req.user._id; // Auth middleware se user ID
-
-//         // Mahine ki start aur end date calculate karein
-//         const startDate = new Date(year, month - 1, 1);
-//         const endDate = new Date(year, month, 0, 23, 59, 59);
-
-//         // --- Aggregation Pipeline ---
-//         const stats = await Timelog.aggregate([
-//             {
-//                 $match: {
-//                     userId: new mongoose.Types.ObjectId(internId),
-//                     workDate: { $gte: startDate, $lte: endDate }
-//                 }
-//             },
-//             {
-//                 $facet: {
-//                     // Part A: Category wise hours (Pie Chart ke liye)
-//                     "categoryBreakup": [
-//                         {
-//                             $group: {
-//                                 _id: "$category",
-//                                 totalHours: { $sum: { $toDouble: "$totalHours" } }
-//                             }
-//                         },
-//                         { $project: { name: "$_id", totalHours: 1, _id: 0 } }
-//                     ],
-//                     // Part B: Overall Stats (KPIs ke liye)
-//                     "overallStats": [
-//                         {
-//                             $group: {
-//                                 _id: null,
-//                                 totalHours: { $sum: { $toDouble: "$totalHours" } },
-//                                 daysWorked: { $addToSet: { $dateToString: { format: "%Y-%m-%d", date: "$workDate" } } }
-//                             }
-//                         }
-//                     ],
-//                     // Part C: Daily logs for Calendar
-//                     "dailyLogs": [
-//                         {
-//                             $group: {
-//                                 _id: { $dateToString: { format: "%Y-%m-%d", date: "$workDate" } },
-//                                 dayTotal: { $sum: { $toDouble: "$totalHours" } }
-//                             }
-//                         }
-//                     ]
-//                 }
-//             }
-//         ]);
-
-//         // Data clean up for Response
-//         const breakup = stats[0].categoryBreakup;
-//         const overall = stats[0].overallStats[0] || { totalHours: 0, daysWorked: [] };
-//         const daily = stats[0].dailyLogs;
-
-//         // Most active category nikaalne ka logic
-//         const mostActive = breakup.length > 0 
-//             ? breakup.reduce((prev, current) => (prev.totalHours > current.totalHours) ? prev : current).name 
-//             : "N/A";
-
-//         res.status(200).json({
-//             success: true,
-//             data: {
-//                 totalHours: overall.totalHours.toFixed(2),
-//                 daysWorked: overall.daysWorked.length,
-//                 avgDailyHours: overall.daysWorked.length > 0 
-//                     ? (overall.totalHours / overall.daysWorked.length).toFixed(2) 
-//                     : 0,
-//                 mostActiveCategory: mostActive,
-//                 categoryBreakup: breakup,
-//                 logs: daily // Calendar mein dates highlight karne ke liye
-//             }
-//         });
-
-//     } catch (error) {
-//         console.error(error);
-//         res.status(500).json({ success: false, message: "Server Error in Analysis" });
-//     }
-// };
-
 exports.getMonthlyAnalysis = async (req, res) => {
     try {
         const { month, year } = req.query;
@@ -285,19 +202,37 @@ exports.getMonthlyAnalysis = async (req, res) => {
                         }
                     ],
 
+                    // dailyLogs: [
+                    //     {
+                    //         $group: {
+                    //             _id: {
+                    //                 $dateToString: {
+                    //                     format: "%Y-%m-%d",
+                    //                     date: "$workDate"
+                    //                 }
+                    //             },
+                    //             dayTotal: { $sum: "$totalHours" }
+                    //         }
+                    //     }
+                    // ]
                     dailyLogs: [
-                        {
-                            $group: {
-                                _id: {
-                                    $dateToString: {
-                                        format: "%Y-%m-%d",
-                                        date: "$workDate"
-                                    }
-                                },
-                                dayTotal: { $sum: "$totalHours" }
-                            }
-                        }
-                    ]
+    {
+        $group: {
+            _id: {
+                $dateToString: {
+                    format: "%Y-%m-%d",
+                    date: "$workDate"
+                }
+            },
+            // Monthly Summary (Calendar) ke liye purani fields:
+            dayTotal: { $sum: "$totalHours" }, 
+            
+            // Dashboard (Punctuality) ke liye nayi field:
+            startDecimal: { $min: "$startDecimal" } 
+        }
+    },
+    { $sort: { "_id": 1 } } // Data ko sequence mein rakhne ke liye
+]
                 }
             }
         ]);

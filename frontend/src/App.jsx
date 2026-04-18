@@ -34,6 +34,7 @@ import MentorTimelinePage  from "./pages/MentorPage/MentorTimelinePage";
 import MentorLeavesPage from "./pages/MentorPage/MentorLeavesPage";
 import Header from './components/Header/Header';
 import Footer from './components/Footer/Footer';
+import WorkPolicy from "./pages/WorkPolicy";
 
 const DashboardLayout = ({ children }) => {
   return (
@@ -140,6 +141,12 @@ function App() {
             <DashboardLayout><LeavesPage/></DashboardLayout>
           </ProtectedRoute>
         }/>
+
+        <Route path="/workpolicy" element={
+          <ProtectedRoute allowedRole="INTERN">
+            <DashboardLayout><WorkPolicy/></DashboardLayout>
+          </ProtectedRoute>
+        }/>        
 
         {/* ---------- COMMON ROUTE ---------- */}
         <Route path="/profile" element={
