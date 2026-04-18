@@ -1,146 +1,126 @@
-/* Container Layout */
+/* Container Background - Image 2 jaisa colorful gradient */
 .view-wrapper {
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background: #f8fafc;
+  /* background: linear-gradient(135deg, #e0f2fe 0%, #e0f2fe 50%, #e0f2fe 100%); */
   padding: 20px;
   font-family: 'Inter', sans-serif;
 }
 
-/* Compact Premium Card */
+/* Glassmorphism Card */
 .view-card {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.4); /* Transparent white */
+  backdrop-filter: blur(12px); /* Blur effect */
+  -webkit-backdrop-filter: blur(12px);
   width: 100%;
-  max-width: 400px; 
-  border-radius: 24px;
-  padding: 32px 24px;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.05);
-  border: 1px solid #f1f5f9;
-  text-align: center; /* Centers the header content */
+  max-width: 800px; /* Wider layout like Image 2 */
+  border-radius: 28px;
+  display: flex; /* Two column layout */
+  overflow: hidden;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.5);
 }
 
-/* Header Section */
-.profile-card-header {
-  position: relative;
-  margin-bottom: 20px;
+/* Left Sidebar - Personal Info */
+.profile-left {
+  flex: 1;
+  padding: 40px;
+  background: rgba(255, 255, 255, 0.2);
+  border-right: 1px solid rgba(255, 255, 255, 0.3);
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
 }
 
 .avatar-circle {
-  width: 85px;
-  height: 85px;
-  background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
-  color: #2563eb;
+  width: 120px;
+  height: 120px;
+  background: #7c3aed; /* Purple like image 2 */
+  color: white;
   border-radius: 50%;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2.2rem;
-  font-weight: 800;
-  box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.1);
-  margin-bottom: 15px;
-}
-
-.edit-btn-top {
-  position: absolute;
-  top: -10px;
-  right: -5px;
-  background: #fff;
-  border: 1px solid #e2e8f0;
-  padding: 6px 12px;
-  border-radius: 10px;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #64748b;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-
-.edit-btn-top:hover {
-  background: #f8fafc;
-  border-color: #cbd5e1;
-  transform: translateY(-1px);
-}
-
-/* Text Styling */
-.user-intro {
-  margin-bottom: 28px;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 20px rgba(124, 58, 237, 0.3);
 }
 
 .view-title {
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   font-weight: 800;
   color: #1e293b;
-  margin: 0;
-  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  margin-bottom: 5px;
 }
 
 .role-badge {
-  font-size: 0.7rem;
-  color: #3b82f6;
+  font-size: 0.8rem;
+  color: #4f46e5;
   font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-top: 6px;
-  display: inline-block;
+  letter-spacing: 1px;
+  margin-bottom: 30px;
 }
 
-/* Info Section */
+/* Right Side - Professional Details */
+.profile-right {
+  flex: 1.5;
+  padding: 40px;
+}
+
 .info-section {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  text-align: left; /* Aligns list items back to left */
+  gap: 25px;
 }
 
 .info-item {
   display: flex;
-  align-items: center;
-  gap: 14px;
-  padding: 14px;
-  background: #fcfcfd;
-  border-radius: 16px;
-  border: 1px solid #f1f5f9;
+  align-items: flex-start;
+  gap: 15px;
 }
 
 .info-icon {
-  font-size: 1.1rem;
-  opacity: 0.9;
-}
-
-.info-text {
-  display: flex;
-  flex-direction: column;
+  font-size: 1.3rem;
+  color: #64748b;
+  margin-top: 3px;
 }
 
 .info-label {
-  font-size: 0.6rem;
-  color: #94a3b8;
+  font-size: 0.7rem;
+  color: #64748b;
   font-weight: 700;
   text-transform: uppercase;
-  margin-bottom: 2px;
+  display: block;
 }
 
 .info-value {
-  font-size: 0.9rem;
-  color: #334155;
+  font-size: 1rem;
+  color: #1e293b;
   font-weight: 600;
 }
 
-.expertise-badge {
-  background: #ecfdf5;
-  color: #059669;
-  padding: 4px 10px;
-  border-radius: 8px;
-  font-size: 0.8rem;
+/* Tabs like in Image 2 */
+.profile-tabs {
+  display: flex;
+  gap: 20px;
+  border-bottom: 2px solid rgba(0,0,0,0.05);
+  margin-bottom: 30px;
+}
+
+.tab-item {
+  padding-bottom: 10px;
   font-weight: 700;
-  margin-top: 4px;
-  display: inline-block;
+  font-size: 0.85rem;
+  color: #94a3b8;
+  cursor: pointer;
+}
+
+.tab-item.active {
+  color: #1e293b;
+  border-bottom: 2px solid #1e293b;
 }

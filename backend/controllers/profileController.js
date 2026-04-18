@@ -71,9 +71,9 @@ exports.getProfile = async (req, res) => {
     let profile;
 
     if (role === "INTERN") {
-      profile = await InternProfile.findOne({ userId });
+      profile = await InternProfile.findOne({ userId }).populate("userId", "email");
     } else if (role === "MENTOR") {
-      profile = await MentorProfile.findOne({ userId });
+      profile = await MentorProfile.findOne({ userId }).populate("userId", "email");
     }
 
     if (!profile) {
