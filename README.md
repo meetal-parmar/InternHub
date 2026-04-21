@@ -8,6 +8,7 @@ submit updates,b take leaves and view progress.
 **✨ Features**
 🔐 Authentication
 -JWT-based login system
+
 -Role-based access (Mentor / Intern)
 -Secure password handling
 👩‍🏫 Mentor Module
