@@ -4,7 +4,7 @@
 const Task = require("../models/Task");
 const User = require("../models/usersModel");
 
-// ⏳ UNCOMMENT AFTER FRIEND MERGE
+
 const Leave = require("../models/Leave");
 const Notification = require("../models/Notification");
 
@@ -117,7 +117,7 @@ exports.getMentorNotifications = async (req, res) => {
     let notifications = [];
 
     
-    // ⏳ UNCOMMENT AFTER FRIEND MERGE
+    
     notifications = await Notification.find({
       userId: req.user._id,
       isRead: false,

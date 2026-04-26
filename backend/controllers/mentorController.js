@@ -53,7 +53,7 @@ exports.createIntern = async (req, res) => {
       mentor: req.user._id   
     });
 
-    // await sendEmail(cleanEmail,plainPassword);
+     await sendEmail(cleanEmail,plainPassword);
 
     res.status(201).json({
       message: "Intern created successfully",
