@@ -4,9 +4,9 @@ import { useNavigate } from "react-router-dom";
 export default function InternDashboard(){
   const { user, dispatch } = useAuth();
   const navigate = useNavigate();
-
+const BASE_URL = import.meta.env.VITE_API_URL;
   const logout = async ()=>{
-    await fetch("http://localhost:3000/auth/logout",{
+    await fetch(`${BASE_URL}/auth/logout`,{
       method:"POST",
       credentials:"include"
     });

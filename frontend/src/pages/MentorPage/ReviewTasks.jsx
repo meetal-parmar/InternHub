@@ -10,6 +10,7 @@ import {
   FiClock
 } from "react-icons/fi";
 import "../../style/MentorTasks.css";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function ReviewTasks() {
   const [tasks, setTasks] = useState([]);
@@ -27,7 +28,7 @@ export default function ReviewTasks() {
 
   const fetchReviewQueue = async () => {
     const token = localStorage.getItem("token");
-    const res = await fetch("http://localhost:3000/mentor/reviews", {
+    const res = await fetch(`${BASE_URL}/mentor/reviews`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await res.json();
@@ -46,7 +47,7 @@ export default function ReviewTasks() {
     }
 
     const res = await fetch(
-      `http://localhost:3000/mentor/task/${viewTask._id}/review`,
+      `${BASE_URL}/mentor/task/${viewTask._id}/review`,
       {
         method: "PATCH",
         headers: { Authorization: `Bearer ${token}` },
@@ -100,7 +101,6 @@ export default function ReviewTasks() {
         </div>
       </div>
 
-      {/* ================= REVIEW MODAL ================= */}
       {viewTask && (
         <div className="modal-overlay">
           <div className="review-task-card">

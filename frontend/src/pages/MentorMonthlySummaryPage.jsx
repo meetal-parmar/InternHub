@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import MonthlyCalendarView from '../components/MonthlyCalendarView';
 import MonthlyAnalysisPanel from '../components/MonthlyAnalysisPanel';
 import '../style/MonthlySummary.css';
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 
 const MentorMonthlySummaryPage = () => {
 
@@ -21,7 +23,7 @@ const MentorMonthlySummaryPage = () => {
 
     // 🔹 Fetch interns
     useEffect(() => {
-        fetch("http://localhost:3000/mentor/interns", {
+        fetch(`${BASE_URL}/mentor/interns`, {
             credentials: "include"
         })
         .then(res => res.json())
@@ -51,7 +53,7 @@ const MentorMonthlySummaryPage = () => {
             if (!selectedIntern) return;
 
             const res = await fetch(
-                `http://localhost:3000/mentor/monthlySummary/${selectedIntern}?month=${selectedMonth.month}&year=${selectedMonth.year}`,
+                `${BASE_URL}/mentor/monthlySummary/${selectedIntern}?month=${selectedMonth.month}&year=${selectedMonth.year}`,
                 { credentials: 'include' }
             );
 

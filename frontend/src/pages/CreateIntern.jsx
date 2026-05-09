@@ -3,6 +3,7 @@ import { User, Mail, Lock } from "lucide-react";
 import toast from "react-hot-toast";
 import "../style/CreateIntern.css";
 import { useNavigate } from "react-router-dom";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 
 export default function CreateIntern() {
@@ -20,7 +21,7 @@ export default function CreateIntern() {
     e.preventDefault();
 
     try {
-      const res = await fetch("http://localhost:3000/mentor/create-intern", {
+      const res = await fetch(`${BASE_URL}/mentor/create-intern`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

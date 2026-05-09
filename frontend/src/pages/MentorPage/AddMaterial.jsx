@@ -6,6 +6,7 @@ import {
 } from "react-icons/fa";
 import toast from "react-hot-toast";
 import "../../style/AddMaterial.css";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function AddMaterial() {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ export default function AddMaterial() {
 
   const fetchInterns = async () => {
     try {
-      const res = await fetch("http://localhost:3000/mentor/interns", {
+      const res = await fetch(`${BASE_URL}/mentor/interns`, {
         headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
       });
       const data = await res.json();
@@ -98,7 +99,7 @@ export default function AddMaterial() {
   });
 
   try {
-    const res = await fetch("http://localhost:3000/mentor/materials", {
+    const res = await fetch(`${BASE_URL}/mentor/materials`, {
       method: "POST",
       headers: {
         Authorization: `Bearer ${localStorage.getItem("token")}`,

@@ -21,11 +21,12 @@ function MentorProfile({ initialData = {}, isEdit = false, onSuccess }) {
   e.preventDefault();
   const token = localStorage.getItem("token");
   setErrors({});
+    const BASE_URL = import.meta.env.VITE_API_URL;
 
   try {
     const endpoint = isEdit
-      ? "http://localhost:3000/profile"
-      : "http://localhost:3000/profile/mentor";
+      ? `${BASE_URL}/profile`
+      : `${BASE_URL}/profile/mentor`;
 
     const res = await fetch(endpoint, {
       method: isEdit ? "PUT" : "POST",

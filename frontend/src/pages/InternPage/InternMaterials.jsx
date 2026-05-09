@@ -14,10 +14,11 @@ export default function InternMaterials() {
   useEffect(() => {
     fetchMaterials();
   }, []);
-
+const BASE_URL = import.meta.env.VITE_API_URL;
   const fetchMaterials = async () => {
+    //  const BASE_URL = import.meta.env.VITE_API_URL;
     try {
-      const res = await fetch("http://localhost:3000/materials/intern", {
+      const res = await fetch(`${BASE_URL}/materials/intern`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -35,7 +36,7 @@ export default function InternMaterials() {
 
   const openDetails = async (id) => {
     try {
-      const res = await fetch(`http://localhost:3000/materials/${id}`, {
+      const res = await fetch(`${BASE_URL}/materials/${id}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -52,7 +53,7 @@ export default function InternMaterials() {
 
   const handleMarkAsRead = async (id) => {
     try {
-      const res = await fetch(`http://localhost:3000/materials/read/${id}`, {
+      const res = await fetch(`${BASE_URL}/materials/read/${id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -165,7 +166,7 @@ export default function InternMaterials() {
         // URL prepare karein
         const fileUrl = path.startsWith('http') 
           ? path 
-          : `http://localhost:3000/${path.replace(/\\/g, '/')}`; // Windows paths fix karne ke liye
+          : `${BASE_URL}/${path.replace(/\\/g, '/')}`; // Windows paths fix karne ke liye
 
         return (
           <a 

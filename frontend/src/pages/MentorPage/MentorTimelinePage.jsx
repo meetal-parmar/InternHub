@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import "../../style/MentorTimeline.css";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function MentorTimelinePage() {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split("T")[0]);
@@ -19,7 +20,7 @@ export default function MentorTimelinePage() {
 
   const fetchInterns = async () => {
     try {
-      const res = await fetch("http://localhost:3000/mentor/interns", { credentials: "include" });
+      const res = await fetch(`${BASE_URL}/mentor/interns`, { credentials: "include" });
       const data = await res.json();
       setInterns(data);
       if (data.length > 0) setSelectedIntern(data[0]);
@@ -29,7 +30,7 @@ export default function MentorTimelinePage() {
   const fetchTimeline = async () => {
     if (!selectedIntern) return;
     try {
-      const res = await fetch(`http://localhost:3000/mentor/intern-timeline/${selectedIntern._id}?date=${selectedDate}`, { credentials: "include" });
+      const res = await fetch(`${BASE_URL}/mentor/intern-timeline/${selectedIntern._id}?date=${selectedDate}`, { credentials: "include" });
       const data = await res.json();
       if (data.success) { setLogs(data.data); setTotalHours(data.totalHours); }
       else { setLogs([]); setTotalHours("0.00"); }

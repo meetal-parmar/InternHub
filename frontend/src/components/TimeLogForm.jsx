@@ -152,12 +152,12 @@ const TimelogForm = ({ selectedDate, onLogAdded, editData, onCancelEdit }) => {
             category, 
             description 
         };
-
+        const BASE_URL = import.meta.env.VITE_API_URL;
         // --- 2. Dynamic URL aur Method (POST vs PUT) ---
         const isEditing = !!editData;
         const url = isEditing 
-            ? `http://localhost:3000/intern/timelog/${editData._id}` 
-            : "http://localhost:3000/intern/timelog";
+            ? `${BASE_URL}/intern/timelog/${editData._id}` 
+            : `${BASE_URL}/intern/timelog`;
         const method = isEditing ? "PUT" : "POST";
 
         try {

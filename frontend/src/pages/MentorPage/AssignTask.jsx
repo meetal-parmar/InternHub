@@ -4,6 +4,7 @@ import { FaTasks, FaCloudUploadAlt } from "react-icons/fa";
 import "../../style/AssignTask.css"; 
 import toast from "react-hot-toast";
 
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function AssignTask() {
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ export default function AssignTask() {
 
   const fetchInterns = async () => {
     const token = localStorage.getItem("token");
-    const res = await fetch("http://localhost:3000/mentor/interns", {
+    const res = await fetch(`${BASE_URL}/mentor/interns`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await res.json();
@@ -59,7 +60,7 @@ export default function AssignTask() {
       formData.append("submissionFile", form.submissionFile);
     }
 
-    const res = await fetch("http://localhost:3000/mentor/task", {
+    const res = await fetch(`${BASE_URL}/mentor/task`, {
       method: "POST",
       headers: { Authorization: `Bearer ${token}` },
       body: formData,

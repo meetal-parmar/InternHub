@@ -19,7 +19,7 @@ import {
   Paperclip,
   Clock, AlertCircle, UserCheck
 } from "lucide-react";
-
+const BASE_URL = import.meta.env.VITE_API_URL;
 export default function InternTaskDashboard() {
   const [tasks, setTasks] = useState([]);
   const [selectedTask, setSelectedTask] = useState(null);
@@ -46,9 +46,9 @@ export default function InternTaskDashboard() {
 
       // Teeno APIs ko ek saath call kar rahe hain
       const [taskRes, attRes, leaveRes] = await Promise.all([
-        axios.get("http://localhost:3000/my-tasks", { headers }),
-        axios.get(`http://localhost:3000/intern/monthlySummary?month=${today.getMonth() + 1}&year=${today.getFullYear()}`, { headers }),
-        axios.get("http://localhost:3000/leaves/intern", { headers })
+        axios.get(`${BASE_URL}/my-tasks`, { headers }),
+        axios.get(`${BASE_URL}/intern/monthlySummary?month=${today.getMonth() + 1}&year=${today.getFullYear()}`, { headers }),
+        axios.get(`${BASE_URL}/leaves/intern`, { headers })
       ]);
 
       setTasks(taskRes.data.tasks || []);
@@ -123,7 +123,7 @@ const punctuality = useMemo(() => {
       const token = localStorage.getItem("token");
 
       await axios.patch(
-        `http://localhost:3000/task/start/${id}`,
+        `${BASE_URL}/task/start/${id}`,
         {},
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -147,7 +147,7 @@ const punctuality = useMemo(() => {
       }
 
       await axios.patch(
-        `http://localhost:3000/task/submit/${selectedTask._id}`,
+        `${BASE_URL}/task/submit/${selectedTask._id}`,
         formData,
         { headers: { Authorization: `Bearer ${token}` } }
       );
@@ -165,7 +165,7 @@ const punctuality = useMemo(() => {
       const token = localStorage.getItem("token");
 
       const res = await axios.get(
-        `http://localhost:3000/task/${id}`,
+        `${BASE_URL}/task/${id}`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
@@ -504,7 +504,7 @@ const punctuality = useMemo(() => {
                 Original Task Document
               </span> */}
               <a 
-                href={`http://localhost:3000/${selectedTask.mentorAttachment}`} 
+                href={`${BASE_URL}/${selectedTask.mentorAttachment}`} 
                 target="_blank" 
                 rel="noreferrer"
                 className="text-sky-600 hover:text-sky-800 font-bold text-sm whitespace-nowrap"
@@ -548,7 +548,7 @@ const punctuality = useMemo(() => {
                         </a>
                       )}
                       {r.supportFile && (
-                        <a href={`http://localhost:3000/${r.supportFile}`} target="_blank" className="support-link">
+                        <a href={`${BASE_URL}/${r.supportFile}`} target="_blank" className="support-link">
                           📄 Support Doc
                         </a>
                       )}

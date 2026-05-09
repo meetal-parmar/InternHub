@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 
 import TimelogForm from '../../components/TimeLogForm';
 import TimelogTable from '../../components/TimeLogTable';
-
+const BASE_URL = import.meta.env.VITE_API_URL;
 const TimelogPage = () => {
     const [logs, setLogs] = useState([]);
     const [selectedDate, setSelectedDate] = useState(new Date());
@@ -19,7 +19,7 @@ const TimelogPage = () => {
     const fetchAllLogs = useCallback(async () => {
         const dateStr = getFormattedDate(selectedDate);
         try {
-            const response = await fetch(`http://localhost:3000/intern/timelog?date=${dateStr}`, {
+            const response = await fetch(`${BASE_URL}/intern/timelog?date=${dateStr}`, {
                 credentials: 'include'
             });
             const result = await response.json();
@@ -39,7 +39,7 @@ const TimelogPage = () => {
         // if (!window.confirm("Are you sure you want to delete this entry?")) return;
 
         try {
-            const response = await fetch(`http://localhost:3000/intern/timelog/${id}`, {
+            const response = await fetch(`${BASE_URL}/intern/timelog/${id}`, {
                 method: 'DELETE',
                 credentials: 'include'
             });

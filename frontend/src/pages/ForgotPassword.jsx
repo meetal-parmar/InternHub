@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../style/login.css"; // Wahi CSS file use kar rahe hain
 import toast from "react-hot-toast";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");
@@ -18,7 +19,7 @@ export default function ForgotPassword() {
     try {
       setLoading(true);
       setError("");
-      const res = await fetch("http://localhost:3000/auth/forgot-password", {
+      const res = await fetch(`${BASE_URL}/auth/forgot-password`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

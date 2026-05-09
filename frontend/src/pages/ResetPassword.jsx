@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../style/login.css"; // Hum same CSS file use kar sakte hain
 import toast from "react-hot-toast";
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 
 export default function ResetPassword() {
   const [password, setPassword] = useState("");
@@ -18,7 +20,7 @@ export default function ResetPassword() {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/auth/reset-password", {
+      const res = await fetch(`${BASE_URL}/auth/reset-password`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password, confirmPassword })

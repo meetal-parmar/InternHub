@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "../style/login.css"; // Same CSS file
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function Signup() {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ export default function Signup() {
     e.preventDefault();
     try {
       setError("");
-      const res = await fetch("http://localhost:3000/auth/signup", {
+      const res = await fetch(`${BASE_URL}/auth/signup`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

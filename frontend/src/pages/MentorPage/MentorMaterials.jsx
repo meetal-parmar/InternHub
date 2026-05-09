@@ -12,6 +12,8 @@ import {
 } from "react-icons/fa";
 import toast from "react-hot-toast";
 import "../../style/MentorMaterials.css";
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 
 export default function MentorMaterials() {
   const navigate = useNavigate();
@@ -26,7 +28,7 @@ export default function MentorMaterials() {
 
   const fetchMaterials = async () => {
     try {
-      const res = await fetch("http://localhost:3000/mentor/materials", {
+      const res = await fetch(`${BASE_URL}/mentor/materials`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
@@ -41,7 +43,7 @@ export default function MentorMaterials() {
   const handleDeleteMaterial = async () => {
     try {
       const res = await fetch(
-        `http://localhost:3000/mentor/materials/${selectedMaterial._id}`,
+        `${BASE_URL}/mentor/materials/${selectedMaterial._id}`,
         {
           method: "DELETE",
           headers: {

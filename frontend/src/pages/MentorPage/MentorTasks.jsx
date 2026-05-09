@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { FiEye, FiEdit3, FiTrash2, FiCalendar, FiUser, FiFlag, FiCheckCircle, FiFileText, FiPaperclip,FiX} from "react-icons/fi";
 import "../../style/MentorTasks.css"; 
 import "../../style/AssignTask.css";
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 
 export default function MentorTasks() {
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ export default function MentorTasks() {
 
   const fetchTasks = async () => {
     const token = localStorage.getItem("token");
-    const res = await fetch("http://localhost:3000/mentor/tasks", {
+    const res = await fetch(`${BASE_URL}/mentor/tasks`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     const data = await res.json();
@@ -41,7 +43,7 @@ export default function MentorTasks() {
 
   const saveEdit = async () => {
     const token = localStorage.getItem("token");
-    const res = await fetch(`http://localhost:3000/mentor/task/${editingTask}`, {
+    const res = await fetch(`${BASE_URL}/mentor/task/${editingTask}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -59,7 +61,7 @@ export default function MentorTasks() {
   const token = localStorage.getItem("token");
 
   const res = await fetch(
-    `http://localhost:3000/mentor/task/${deleteTaskId}`,
+    `${BASE_URL}/mentor/task/${deleteTaskId}`,
     {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },

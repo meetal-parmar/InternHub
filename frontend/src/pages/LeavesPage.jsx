@@ -6,6 +6,8 @@ import toast, { Toaster } from 'react-hot-toast';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import '../style/LeavesPage.css';
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 
 const LeavesPage = () => {
   const todayFormatted = new Date().toLocaleDateString('en-GB'); // Ye "09/04/2026" return karega
@@ -27,7 +29,7 @@ const LeavesPage = () => {
     const fetchLeavesData = async () => {
         setLoading(true);
         try {
-            const response = await fetch('http://localhost:3000/leaves/intern', {
+            const response = await fetch(`${BASE_URL}/leaves/intern`, {
                 method: 'GET',
                 headers: { 'Content-Type': 'application/json' },
                 credentials: 'include'
@@ -87,7 +89,7 @@ const calculateDays = () => {
     }
 
     try {
-        const res = await fetch('http://localhost:3000/leaves/apply', {
+        const res = await fetch(`${BASE_URL}/leaves/apply`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             credentials: 'include',
@@ -128,7 +130,7 @@ const calculateDays = () => {
 };
 const handleCancelLeave = async (id) => {
   try {
-    const res = await fetch(`http://localhost:3000/leaves/cancel/${id}`, {
+    const res = await fetch(`${BASE_URL}/leaves/cancel/${id}`, {
       method: "DELETE",
       credentials: "include"
     });

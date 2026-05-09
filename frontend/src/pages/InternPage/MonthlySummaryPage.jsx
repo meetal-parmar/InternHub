@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import MonthlyCalendarView from '../../components/MonthlyCalendarView';
 import MonthlyAnalysisPanel from '../../components/MonthlyAnalysisPanel';
 import '../../style/MonthlySummary.css';
-
+const BASE_URL = import.meta.env.VITE_API_URL;
 const MonthlySummaryPage = () => {
     const [monthlyData, setMonthlyData] = useState({
         logs: [],
@@ -18,7 +18,7 @@ const MonthlySummaryPage = () => {
     const fetchMonthlyAnalysis = async (month, year) => {
         try {
             const response = await fetch(
-                `http://localhost:3000/intern/monthlySummary?month=${month}&year=${year}`,
+                `${BASE_URL}/intern/monthlySummary?month=${month}&year=${year}`,
                 { credentials: 'include' }
             );
 

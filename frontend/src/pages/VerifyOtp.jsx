@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import "../style/login.css";
+const BASE_URL = import.meta.env.VITE_API_URL;
 
 
 export default function VerifyOtp() {
@@ -36,7 +37,7 @@ export default function VerifyOtp() {
     try {
       setLoading(true);
       setError("");
-      const res = await fetch("http://localhost:3000/auth/verify-otp", {
+      const res = await fetch(`${BASE_URL}/auth/verify-otp`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, otp: fullOtp })
