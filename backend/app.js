@@ -23,7 +23,19 @@ mongoose.connect(process.env.MONGO_URL)
   .catch((err) => console.log(err));
 
 // Middleware
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+//app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://intern-hub-git-feature-auth-meetal-parmars-projects.vercel.app"
+];
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 app.use(cookieParser());
 app.use("/uploads", express.static("uploads")); // serve uploaded files
