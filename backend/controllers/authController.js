@@ -167,8 +167,8 @@ exports.signupUser = async (req, res) => {
     res.cookie('jwt',token,{
         httpOnly:true, 
         maxAge:maxAge * 1000,
-        sameSite: 'Strict',
-        secure: process.env.NODE_ENV === 'production'
+        sameSite: 'none',
+        secure: true     
     });
 
     res.status(200).json({
@@ -217,8 +217,8 @@ exports.loginUser = async(req,res)=>{
         res.cookie('jwt',token,{
             httpOnly: true,
             maxAge: maxAge * 1000,
-            sameSite: 'Strict',
-            secure: process.env.NODE_ENV === 'production'
+           sameSite: 'none',
+        secure: true   
         });
 
         res.status(200).json({
@@ -240,8 +240,8 @@ exports.logoutUser = async (req, res) => {
     res.cookie("jwt", "", {
       httpOnly: true,
       expires: new Date(0),
-      sameSite: "Strict",
-      secure: process.env.NODE_ENV === "production"
+     sameSite: 'none',
+        secure: true   
     });
 
     res.status(200).json({

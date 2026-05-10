@@ -29,12 +29,16 @@ const allowedOrigins = [
   "https://intern-hub-git-feature-auth-meetal-parmars-projects.vercel.app"
 ];
 
-app.use(
-  cors({
-    origin: allowedOrigins,
-    credentials: true,
-  })
-);
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(null, true); // temporary allow all
+  },
+  credentials: true
+}));
 
 app.use(express.json());
 app.use(cookieParser());
