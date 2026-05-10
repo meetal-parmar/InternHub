@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import ProfileMentor from "../../components/profile/ProfileMentor";
 import InternProfile from "../../components/profile/InternProfile";
 import "../../style/ProfileView.css"; 
+const BASE_URL = import.meta.env.VITE_API_URL;
+
 
 function ProfilePage() {
   const [profile, setProfile] = useState(null);
@@ -24,7 +26,7 @@ function ProfilePage() {
   // Keep your existing fetch logic
   const fetchProfile = async () => {
     try {
-      const res = await fetch("http://localhost:3000/profile", {
+      const res = await fetch(`${BASE_URL}/profile`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       const data = await res.json();
