@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "../style/login.css"; // Hum same CSS file use kar sakte hain
+import "../style/Login.css"; // Hum same CSS file use kar sakte hain
 import toast from "react-hot-toast";
 const BASE_URL = import.meta.env.VITE_API_URL;
 

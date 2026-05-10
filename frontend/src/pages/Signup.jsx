@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import "../style/login.css"; // Same CSS file
+import "../style/Login.css"; // Same CSS file
 const BASE_URL = import.meta.env.VITE_API_URL;
 
 export default function Signup() {
